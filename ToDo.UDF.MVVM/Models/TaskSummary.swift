@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-enum TaskPriority {
+enum TaskPriority: CaseIterable {
     case low
     case medium
     case high
@@ -23,9 +23,9 @@ enum TaskPriority {
     
     var indicatorColor: Color {
         switch self {
-        case .low: Color(hex: 0xBDBDBD)
-        case .medium: Color(hex: 0x7C7C7C)
-        case .high: Color(hex: 0xE5484D)
+        case .low: Color(hex: 0xC4C4C8)
+        case .medium: Color(hex: 0x71717A)
+        case .high: Color(hex: 0x16161A)
         }
     }
 }

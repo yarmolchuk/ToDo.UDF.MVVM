@@ -17,7 +17,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity)
             .frame(height: 62)
             .background(
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .fill(AppColor.ink)
             )
             .opacity(configuration.isPressed ? 0.85 : 1)

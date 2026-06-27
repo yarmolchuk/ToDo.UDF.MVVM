@@ -21,9 +21,13 @@ extension Color {
 /// Палітра застосунку.
 enum AppColor {
     static let background = Color(hex: 0xF3F1EC)
-    static let ink = Color(hex: 0x1B1B1D)
+    static let ink = Color(hex: 0x16161A)
     static let card = Color.white
-    static let textPrimary = Color(hex: 0x1B1B1D)
-    static let textSecondary = Color(hex: 0x9B9B9B)
+    static let textPrimary = Color(hex: 0x16161A)
+    static let textSecondary = Color(hex: 0xA1A09A)
     static let onInk = Color.white
+    static let subtleFill = Color(hex: 0xF2F1ED)      // --chip
+    static let stroke = Color(hex: 0xD6D5D0)          // рамка чекбокса
+    static let chipText = Color(hex: 0x52524E)        // текст чипа часу
+    static let priorityLabel = Color(hex: 0xB4B3AD)   // лейбл пріоритету
 }
