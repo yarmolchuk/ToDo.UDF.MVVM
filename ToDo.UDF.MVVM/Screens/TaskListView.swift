@@ -59,7 +59,7 @@ struct TaskListView: View {
 
     private var content: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 9) {
+            LazyVStack(alignment: .leading, spacing: 9) {
                 header
 
                 ForEach(activeTasks) { task in
