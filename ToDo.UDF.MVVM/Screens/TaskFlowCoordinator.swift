@@ -2,8 +2,6 @@
 //  TaskFlowCoordinator.swift
 //  ToDo.UDF.MVVM
 //
-//  Координатор todo-флоу: тримає Router/UIFactory, обробляє ефекти.
-//
 
 import SwiftUI
 
