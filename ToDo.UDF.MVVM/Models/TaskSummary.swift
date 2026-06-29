@@ -30,7 +30,7 @@ enum TaskPriority: CaseIterable {
     }
 }
 
-struct TaskSummary {
+struct TaskSummary: Equatable {
     let title: String
     let time: String
     let priority: TaskPriority
