@@ -19,7 +19,7 @@ struct CompletedTaskRow: View {
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(AppColor.textSecondary)
                 .strikethrough(true, color: AppColor.textSecondary)
-                .accessibilityHidden(true)   // назву озвучує CheckboxButton
+                .accessibilityHidden(true)
 
             Spacer(minLength: 0)
         }

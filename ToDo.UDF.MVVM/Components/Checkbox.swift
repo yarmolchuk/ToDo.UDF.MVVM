@@ -11,7 +11,7 @@ import SwiftUI
 struct Checkbox: View {
     let isOn: Bool
     var size: CGFloat = 52
-    var cornerRadius: CGFloat = 8   // --radius-checkbox
+    var cornerRadius: CGFloat = 8
 
     var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
@@ -28,7 +28,7 @@ struct Checkbox: View {
                     .opacity(isOn ? 1 : 0)
             }
             .frame(width: size, height: size)
-            .accessibilityHidden(true)   // стан несе CheckboxButton
+            .accessibilityHidden(true)
     }
 }
 

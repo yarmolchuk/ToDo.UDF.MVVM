@@ -12,7 +12,6 @@ struct TaskListView: View {
     @State private var tasks: [TodoTask] = TodoTask.sampleList
 
     var onAdd: () -> Void = {}
-    var onToggleTheme: () -> Void = {}
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -28,7 +27,6 @@ struct TaskListView: View {
             DotGridBackground()
 
             VStack(spacing: 0) {
-                topBar
                 content
             }
 
@@ -37,29 +35,9 @@ struct TaskListView: View {
         }
     }
 
-    private var topBar: some View {
-        HStack(spacing: 22) {
-            Spacer()
-            Button(action: onAdd) {
-                Image(systemName: "plus")
-            }
-            .accessibilityLabel("Додати задачу")
-
-            Button(action: onToggleTheme) {
-                Image(systemName: "circle.righthalf.filled")
-            }
-            .accessibilityLabel("Перемкнути тему")
-        }
-        .font(.system(size: 20, weight: .semibold))
-        .foregroundStyle(AppColor.textPrimary)
-        .buttonStyle(.plain)
-        .padding(.horizontal, 24)
-        .padding(.vertical, 6)
-    }
-
     private var content: some View {
         ScrollView {
-            LazyVStack(alignment: .leading, spacing: 9) {
+            VStack(alignment: .leading, spacing: 9) {
                 header
 
                 ForEach(activeTasks) { task in
@@ -77,7 +55,7 @@ struct TaskListView: View {
                 }
             }
             .padding(.horizontal, 18)
-            .padding(.bottom, 120)   // простір під FAB
+            .padding(.bottom, 120) 
         }
     }
 

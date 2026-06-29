@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProgressRing: View {
-    let progress: Double          // частка [0, 1]
+    let progress: Double
     var size: CGFloat = 88
     var lineWidth: CGFloat = 8
 
