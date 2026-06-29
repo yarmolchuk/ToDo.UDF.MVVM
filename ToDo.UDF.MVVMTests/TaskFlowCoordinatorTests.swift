@@ -41,4 +41,10 @@ struct TaskFlowCoordinatorTests {
         coordinator.handle(.dismissForm)
         #expect(coordinator.router.path.isEmpty)
     }
+
+    @Test func makesNewTaskViewModel() {
+        let coordinator = TaskFlowCoordinator()
+        let vm = coordinator.makeNewTaskViewModel()
+        #expect(vm.props.canSave)
+    }
 }

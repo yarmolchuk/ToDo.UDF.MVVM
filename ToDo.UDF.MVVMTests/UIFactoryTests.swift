@@ -30,4 +30,18 @@ struct UIFactoryTests {
         vm.onEvent(.addTapped)
         #expect(received == .createTaskRequested)
     }
+
+    @Test func buildsNewTaskViewModel() {
+        let factory = DefaultUIFactory()
+        let vm = factory.newTaskViewModel(onEffect: { _ in })
+        #expect(vm.props.canSave)
+    }
+
+    @Test func builtNewTaskViewModelEmitsEffect() {
+        var received: CoordinatorEffect?
+        let factory = DefaultUIFactory()
+        let vm = factory.newTaskViewModel(onEffect: { received = $0 })
+        vm.onEvent(.backTapped)
+        #expect(received == .dismissForm)
+    }
 }

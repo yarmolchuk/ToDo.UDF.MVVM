@@ -18,6 +18,10 @@ protocol UIFactory {
         tasks: [TodoTask],
         onEffect: @escaping (CoordinatorEffect) -> Void
     ) -> TaskListViewModel
+
+    func newTaskViewModel(
+        onEffect: @escaping (CoordinatorEffect) -> Void
+    ) -> NewTaskViewModel
 }
 
 @MainActor
@@ -36,5 +40,11 @@ final class DefaultUIFactory: UIFactory {
         onEffect: @escaping (CoordinatorEffect) -> Void
     ) -> TaskListViewModel {
         TaskListViewModel(tasks: tasks, onEffect: onEffect)
+    }
+
+    func newTaskViewModel(
+        onEffect: @escaping (CoordinatorEffect) -> Void
+    ) -> NewTaskViewModel {
+        NewTaskViewModel(onEffect: onEffect)
     }
 }
