@@ -32,4 +32,12 @@ final class TaskFlowCoordinator: Coordinator {
             .taskCreatedViewModel(task: task, onEffect: { [weak self] effect in self?.handle(effect) })
             .eraseToAnyViewModel()
     }
+
+    func makeTaskListViewModel(
+        tasks: [TodoTask] = TodoTask.sampleList
+    ) -> AnyUdfViewModel<TaskListView.Props, TaskListView.SyncEvent, TaskListView.AsyncEvent> {
+        factory
+            .taskListViewModel(tasks: tasks, onEffect: { [weak self] effect in self?.handle(effect) })
+            .eraseToAnyViewModel()
+    }
 }

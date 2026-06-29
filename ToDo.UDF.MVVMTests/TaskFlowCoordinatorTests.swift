@@ -23,4 +23,10 @@ struct TaskFlowCoordinatorTests {
         coordinator.handle(.createTaskRequested)
         #expect(coordinator.router.path.isEmpty)
     }
+
+    @Test func makesTaskListViewModelCarryingTasks() {
+        let coordinator = TaskFlowCoordinator()
+        let vm = coordinator.makeTaskListViewModel()
+        #expect(vm.props.active.count + vm.props.completed.count == TodoTask.sampleList.count)
+    }
 }

@@ -16,4 +16,18 @@ struct UIFactoryTests {
         vm.onEvent(.continueTapped)
         #expect(received == .finishCreated)
     }
+
+    @Test func buildsTaskListViewModelCarryingTasks() {
+        let factory = DefaultUIFactory()
+        let vm = factory.taskListViewModel(tasks: TodoTask.sampleList, onEffect: { _ in })
+        #expect(vm.props.active.count + vm.props.completed.count == TodoTask.sampleList.count)
+    }
+
+    @Test func builtTaskListViewModelEmitsEffect() {
+        var received: CoordinatorEffect?
+        let factory = DefaultUIFactory()
+        let vm = factory.taskListViewModel(tasks: TodoTask.sampleList, onEffect: { received = $0 })
+        vm.onEvent(.addTapped)
+        #expect(received == .createTaskRequested)
+    }
 }
