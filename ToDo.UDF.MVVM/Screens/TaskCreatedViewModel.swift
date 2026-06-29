@@ -16,17 +16,17 @@ final class TaskCreatedViewModel: UdfViewModel {
 
     private(set) var props: Props
 
-    @ObservationIgnored private let onContinue: () -> Void
+    @ObservationIgnored private let onEffect: (CoordinatorEffect) -> Void
 
-    init(task: TaskSummary, onContinue: @escaping () -> Void = {}) {
+    init(task: TaskSummary, onEffect: @escaping (CoordinatorEffect) -> Void = { _ in }) {
         self.props = .initial(task: task)
-        self.onContinue = onContinue
+        self.onEffect = onEffect
     }
 
     func onEvent(_ event: SyncEvent) {
         switch event {
         case .continueTapped:
-            onContinue()
+            onEffect(.finishCreated)
         }
     }
 

@@ -3,11 +3,11 @@ import Testing
 
 @MainActor
 struct TaskCreatedViewModelTests {
-    @Test func continueTappedInvokesCallback() {
-        var continued = false
-        let vm = TaskCreatedViewModel(task: .sample, onContinue: { continued = true })
+    @Test func continueTappedEmitsFinishCreated() {
+        var received: CoordinatorEffect?
+        let vm = TaskCreatedViewModel(task: .sample, onEffect: { received = $0 })
         vm.onEvent(.continueTapped)
-        #expect(continued)
+        #expect(received == .finishCreated)
     }
 
     @Test func appearSetsAppeared() async {
