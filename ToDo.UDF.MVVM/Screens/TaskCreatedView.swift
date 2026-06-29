@@ -9,11 +9,13 @@
 import SwiftUI
 
 struct TaskCreatedView: View {
-    let task: TaskSummary
-    var onContinue: () -> Void = {}
+    @State private var viewModel: AnyUdfViewModel<Props, SyncEvent, AsyncEvent>
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var appeared = false
+
+    init(viewModel: AnyUdfViewModel<Props, SyncEvent, AsyncEvent>) {
+        _viewModel = State(initialValue: viewModel)
+    }
 
     var body: some View {
         ZStack {
@@ -23,8 +25,8 @@ struct TaskCreatedView: View {
                 Spacer()
 
                 SuccessBadge()
-                    .scaleEffect(appeared || reduceMotion ? 1 : 0.6)
-                    .opacity(appeared ? 1 : 0)
+                    .scaleEffect(viewModel.props.appeared ? 1 : 0.6)
+                    .opacity(viewModel.props.appeared ? 1 : 0)
 
                 Text("ГОТОВО")
                     .font(.system(size: 13, weight: .semibold, design: .monospaced))
@@ -39,23 +41,21 @@ struct TaskCreatedView: View {
                     .multilineTextAlignment(.center)
                     .padding(.top, 12)
 
-                TaskSummaryCard(task: task)
+                TaskSummaryCard(task: viewModel.props.task)
                     .padding(.top, 28)
-                    .opacity(appeared ? 1 : 0)
-                    .offset(y: appeared || reduceMotion ? 0 : 12)
+                    .opacity(viewModel.props.appeared ? 1 : 0)
+                    .offset(y: viewModel.props.appeared ? 0 : 12)
 
                 Spacer()
 
-                Button("До списку", action: onContinue)
+                Button("До списку") { viewModel.onEvent(.continueTapped) }
                     .buttonStyle(PrimaryButtonStyle())
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 16)
         }
-        .onAppear {
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-                appeared = true
-            }
+        .task {
+            await viewModel.onAsync(.appear(reduceMotion: reduceMotion))
         }
     }
 }
@@ -76,5 +76,5 @@ private struct SuccessBadge: View {
 }
 
 #Preview {
-    TaskCreatedView(task: .sample)
+    TaskCreatedView(viewModel: TaskCreatedViewModel(task: .sample).eraseToAnyViewModel())
 }
