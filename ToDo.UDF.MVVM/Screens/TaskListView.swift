@@ -33,6 +33,7 @@ struct TaskListView: View {
             FloatingActionButton(action: onAdd)
                 .padding(24)
         }
+        .sensoryFeedback(.selection, trigger: completedTasks.count)
     }
 
     private var content: some View {
@@ -40,8 +41,18 @@ struct TaskListView: View {
             VStack(alignment: .leading, spacing: 9) {
                 header
 
-                ForEach(activeTasks) { task in
-                    TaskListRow(task: task) { toggle(task) }
+                if activeTasks.isEmpty {
+                    ContentUnavailableView(
+                        "Усе виконано",
+                        systemImage: "checkmark.circle",
+                        description: Text("Активних задач немає")
+                    )
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                } else {
+                    ForEach(activeTasks) { task in
+                        TaskListRow(task: task) { toggle(task) }
+                    }
                 }
 
                 if !completedTasks.isEmpty {
