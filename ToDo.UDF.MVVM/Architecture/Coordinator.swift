@@ -2,8 +2,6 @@
 //  Coordinator.swift
 //  ToDo.UDF.MVVM
 //
-//  Координатор навігації та ефекти, які йому передає ViewModel.
-//
 
 import Foundation
 
@@ -14,4 +12,5 @@ protocol Coordinator: AnyObject {
 
 enum CoordinatorEffect: Equatable {
     case finishCreated
+    case createTaskRequested
 }

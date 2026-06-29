@@ -17,4 +17,10 @@ struct TaskFlowCoordinatorTests {
         let vm = coordinator.makeTaskCreatedViewModel(task: .sample)
         #expect(vm.props.task == .sample)
     }
+
+    @Test func createTaskRequestedIsNoOp() {
+        let coordinator = TaskFlowCoordinator()
+        coordinator.handle(.createTaskRequested)
+        #expect(coordinator.router.path.isEmpty)
+    }
 }

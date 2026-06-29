@@ -20,6 +20,8 @@ final class TaskFlowCoordinator: Coordinator {
         switch effect {
         case .finishCreated:
             router.popToRoot()
+        case .createTaskRequested:
+            break
         }
     }
 
