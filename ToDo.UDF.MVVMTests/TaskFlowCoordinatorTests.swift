@@ -29,4 +29,16 @@ struct TaskFlowCoordinatorTests {
         let vm = coordinator.makeTaskListViewModel()
         #expect(vm.props.active.count + vm.props.completed.count == TodoTask.sampleList.count)
     }
+
+    @Test func saveRequestedIsNoOp() {
+        let coordinator = TaskFlowCoordinator()
+        coordinator.handle(.saveRequested)
+        #expect(coordinator.router.path.isEmpty)
+    }
+
+    @Test func dismissFormIsNoOp() {
+        let coordinator = TaskFlowCoordinator()
+        coordinator.handle(.dismissForm)
+        #expect(coordinator.router.path.isEmpty)
+    }
 }

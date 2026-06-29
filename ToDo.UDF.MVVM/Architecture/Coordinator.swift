@@ -13,4 +13,6 @@ protocol Coordinator: AnyObject {
 enum CoordinatorEffect: Equatable {
     case finishCreated
     case createTaskRequested
+    case saveRequested
+    case dismissForm
 }
