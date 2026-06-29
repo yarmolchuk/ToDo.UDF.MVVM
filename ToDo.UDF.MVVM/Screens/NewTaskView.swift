@@ -2,31 +2,25 @@
 //  NewTaskView.swift
 //  ToDo.UDF.MVVM
 //
-//  Форма створення задачі. Presentational + локальний @State; «Зберегти»
-//  та «назад» — callbacks (заглушки в Preview).
+//  Форма створення задачі. Керується UDF через AnyUdfViewModel:
+//  поля біндяться інлайн (get з props, set через onEvent).
 //
 
 import SwiftUI
 
 struct NewTaskView: View {
-    @State private var title = "Зустріч із інвестором"
-    @State private var notes = "Підготувати дек та ключові метрики"
-    @State private var when: TaskWhen = .today
-    @State private var time = NewTaskView.defaultTime
-    @State private var priority: TaskPriority = .medium
-    @State private var isPickingTime = false
+    @State private var viewModel: AnyUdfViewModel<Props, SyncEvent, AsyncEvent>
 
-    var onSave: () -> Void = {}
-    var onBack: () -> Void = {}
-    var onAdd: () -> Void = {}
-    var onToggleTheme: () -> Void = {}
+    init(viewModel: AnyUdfViewModel<Props, SyncEvent, AsyncEvent>) {
+        _viewModel = State(initialValue: viewModel)
+    }
 
     var body: some View {
         ZStack {
             DotGridBackground()
 
             VStack(spacing: 0) {
-                NavBar(title: "Нова задача", onBack: onBack)
+                NavBar(title: "Нова задача", onBack: { viewModel.onEvent(.backTapped) })
                     .padding(.top, 4)
 
                 ScrollView {
@@ -36,13 +30,17 @@ struct NewTaskView: View {
                         .padding(.bottom, 24)
                 }
 
-                Button("Зберегти", action: onSave)
+                Button("Зберегти") { viewModel.onEvent(.saveTapped) }
                     .buttonStyle(PrimaryButtonStyle())
+                    .disabled(!viewModel.props.canSave)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 12)
             }
         }
-        .sheet(isPresented: $isPickingTime) {
+        .sheet(isPresented: Binding(
+            get: { viewModel.props.isPickingTime },
+            set: { viewModel.onEvent($0 ? .timePickerOpened : .timePickerClosed) }
+        )) {
             timePickerSheet
         }
     }
@@ -50,33 +48,46 @@ struct NewTaskView: View {
     private var formCard: some View {
         VStack(alignment: .leading, spacing: 18) {
             field(label: "Назва") {
-                TextField("Назва задачі", text: $title)
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundStyle(AppColor.textPrimary)
+                TextField("Назва задачі", text: Binding(
+                    get: { viewModel.props.title },
+                    set: { viewModel.onEvent(.titleChanged($0)) }
+                ))
+                .font(.system(size: 24, weight: .bold))
+                .foregroundStyle(AppColor.textPrimary)
             }
 
             divider
 
             field(label: "Нотатки") {
-                TextField("Деталі", text: $notes, axis: .vertical)
-                    .font(.system(size: 18))
-                    .foregroundStyle(AppColor.textPrimary)
-                    .lineLimit(1...6)
+                TextField("Деталі", text: Binding(
+                    get: { viewModel.props.notes },
+                    set: { viewModel.onEvent(.notesChanged($0)) }
+                ), axis: .vertical)
+                .font(.system(size: 18))
+                .foregroundStyle(AppColor.textPrimary)
+                .lineLimit(1...6)
             }
 
             divider
 
             field(label: "Коли") {
-                SegmentedControl(options: TaskWhen.allCases, selection: $when, label: \.title)
-                    .accessibilityLabel("Коли")
+                SegmentedControl(
+                    options: TaskWhen.allCases,
+                    selection: Binding(
+                        get: { viewModel.props.when },
+                        set: { viewModel.onEvent(.whenChanged($0)) }
+                    ),
+                    label: \.title
+                )
+                .accessibilityLabel("Коли")
             }
 
             field(label: "Час") {
                 Button {
-                    isPickingTime = true
+                    viewModel.onEvent(.timePickerOpened)
                 } label: {
                     TimeBadge(
-                        time: Self.timeString(time),
+                        time: Self.timeString(viewModel.props.time),
                         fontSize: 16,
                         horizontalPadding: 14,
                         verticalPadding: 10
@@ -84,7 +95,7 @@ struct NewTaskView: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Час")
-                .accessibilityValue(Self.timeString(time))
+                .accessibilityValue(Self.timeString(viewModel.props.time))
             }
 
             divider
@@ -92,7 +103,10 @@ struct NewTaskView: View {
             field(label: "Пріоритет") {
                 SegmentedControl(
                     options: TaskPriority.allCases,
-                    selection: $priority,
+                    selection: Binding(
+                        get: { viewModel.props.priority },
+                        set: { viewModel.onEvent(.priorityChanged($0)) }
+                    ),
                     label: \.title,
                     dotColor: { $0.indicatorColor }
                 )
@@ -125,11 +139,14 @@ struct NewTaskView: View {
 
     private var timePickerSheet: some View {
         VStack(spacing: 0) {
-            DatePicker("Час", selection: $time, displayedComponents: .hourAndMinute)
+            DatePicker("Час", selection: Binding(
+                get: { viewModel.props.time },
+                set: { viewModel.onEvent(.timeChanged($0)) }
+            ), displayedComponents: .hourAndMinute)
                 .datePickerStyle(.wheel)
                 .labelsHidden()
 
-            Button("Готово") { isPickingTime = false }
+            Button("Готово") { viewModel.onEvent(.timePickerClosed) }
                 .buttonStyle(PrimaryButtonStyle())
                 .padding(.horizontal, 20)
                 .padding(.bottom, 12)
@@ -137,10 +154,6 @@ struct NewTaskView: View {
         .padding(.top, 24)
         .presentationDetents([.height(320)])
         .presentationBackground(AppColor.background)
-    }
-
-    private static var defaultTime: Date {
-        Calendar.current.date(bySettingHour: 9, minute: 30, second: 0, of: Date()) ?? Date()
     }
 
     private static let timeFormatter: DateFormatter = {
@@ -156,5 +169,5 @@ struct NewTaskView: View {
 }
 
 #Preview {
-    NewTaskView()
+    NewTaskView(viewModel: NewTaskViewModel().eraseToAnyViewModel())
 }
