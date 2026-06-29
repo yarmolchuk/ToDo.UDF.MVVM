@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct CompletedTaskRow: View {
-    let task: TodoTask
+    let row: TaskRow
     var onToggle: () -> Void = {}
 
     var body: some View {
         HStack(spacing: 12) {
-            CheckboxButton(isOn: true, title: task.title, size: 32, action: onToggle)
+            CheckboxButton(isOn: true, title: row.title, size: 32, action: onToggle)
 
-            Text(task.title)
+            Text(row.title)
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(AppColor.textSecondary)
                 .strikethrough(true, color: AppColor.textSecondary)
@@ -28,7 +28,8 @@ struct CompletedTaskRow: View {
 }
 
 #Preview {
-    CompletedTaskRow(task: TodoTask.sampleList[4])
+    CompletedTaskRow(row: TaskRow(id: UUID(), title: "Оновити залежності",
+                                  notes: nil, time: "08:00", priority: .low, isDone: true))
         .padding()
         .background(AppColor.background)
 }

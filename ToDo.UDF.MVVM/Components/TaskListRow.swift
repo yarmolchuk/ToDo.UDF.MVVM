@@ -8,21 +8,21 @@
 import SwiftUI
 
 struct TaskListRow: View {
-    let task: TodoTask
+    let row: TaskRow
     var onToggle: () -> Void = {}
 
     var body: some View {
         HStack(alignment: .center, spacing: 13) {
-            CheckboxButton(isOn: task.isDone, title: task.title, size: 23, action: onToggle)
+            CheckboxButton(isOn: row.isDone, title: row.title, size: 23, action: onToggle)
 
             VStack(alignment: .leading, spacing: 3) {
-                Text(task.title)
+                Text(row.title)
                     .font(.system(size: 16, weight: .medium))
                     .tracking(-0.3)
                     .lineSpacing(4.8)
                     .foregroundStyle(AppColor.textPrimary)
 
-                if let notes = task.notes {
+                if let notes = row.notes {
                     Text(notes)
                         .font(.system(size: 13))
                         .foregroundStyle(AppColor.textSecondary)
@@ -33,8 +33,8 @@ struct TaskListRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
 
             VStack(alignment: .trailing, spacing: 7) {
-                TimeBadge(time: task.time)
-                PriorityTag(priority: task.priority)
+                TimeBadge(time: row.time)
+                PriorityTag(priority: row.priority)
             }
         }
         .padding(15)
@@ -71,8 +71,11 @@ private struct PriorityTag: View {
 
 #Preview {
     VStack(spacing: 16) {
-        TaskListRow(task: TodoTask.sampleList[0])
-        TaskListRow(task: TodoTask.sampleList[1])
+        TaskListRow(row: TaskRow(id: UUID(), title: "Підготувати презентацію",
+                                 notes: nil, time: "09:30", priority: .high, isDone: false))
+        TaskListRow(row: TaskRow(id: UUID(), title: "Дзвінок з командою дизайну",
+                                 notes: "Обговорити нову сітку інтерфейсу", time: "11:00",
+                                 priority: .medium, isDone: false))
     }
     .padding()
     .background(AppColor.background)

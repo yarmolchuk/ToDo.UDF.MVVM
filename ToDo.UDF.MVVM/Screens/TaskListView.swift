@@ -2,24 +2,19 @@
 //  TaskListView.swift
 //  ToDo.UDF.MVVM
 //
-//  Екран списку задач. Presentational: задачі живуть у локальному @State,
-//  toggle перемикає виконання, а лічильники й прогрес — обчислювані.
+//  Екран списку задач. Керується UDF через AnyUdfViewModel:
+//  toggle і прогрес приходять із Props, побудованих у ViewModel.
 //
 
 import SwiftUI
 
 struct TaskListView: View {
-    @State private var tasks: [TodoTask] = TodoTask.sampleList
-
-    var onAdd: () -> Void = {}
+    @State private var viewModel: AnyUdfViewModel<Props, SyncEvent, AsyncEvent>
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    private var activeTasks: [TodoTask] { tasks.filter { !$0.isDone } }
-    private var completedTasks: [TodoTask] { tasks.filter { $0.isDone } }
-    private var progress: Double {
-        guard !tasks.isEmpty else { return 0 }
-        return Double(completedTasks.count) / Double(tasks.count)
+    init(viewModel: AnyUdfViewModel<Props, SyncEvent, AsyncEvent>) {
+        _viewModel = State(initialValue: viewModel)
     }
 
     var body: some View {
@@ -30,10 +25,10 @@ struct TaskListView: View {
                 content
             }
 
-            FloatingActionButton(action: onAdd)
+            FloatingActionButton(action: { viewModel.onEvent(.addTapped) })
                 .padding(24)
         }
-        .sensoryFeedback(.selection, trigger: completedTasks.count)
+        .sensoryFeedback(.selection, trigger: viewModel.props.completed.count)
     }
 
     private var content: some View {
@@ -41,7 +36,7 @@ struct TaskListView: View {
             VStack(alignment: .leading, spacing: 9) {
                 header
 
-                if activeTasks.isEmpty {
+                if viewModel.props.active.isEmpty {
                     ContentUnavailableView(
                         "Усе виконано",
                         systemImage: "checkmark.circle",
@@ -50,23 +45,27 @@ struct TaskListView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
                 } else {
-                    ForEach(activeTasks) { task in
-                        TaskListRow(task: task) { toggle(task) }
+                    ForEach(viewModel.props.active) { row in
+                        TaskListRow(row: row) {
+                            viewModel.onEvent(.toggle(id: row.id, reduceMotion: reduceMotion))
+                        }
                     }
                 }
 
-                if !completedTasks.isEmpty {
-                    SectionLabel(text: "Виконано · \(completedTasks.count)")
+                if !viewModel.props.completed.isEmpty {
+                    SectionLabel(text: "Виконано · \(viewModel.props.completed.count)")
                         .padding(.top, 16)
                         .padding(.leading, 4)
 
-                    ForEach(completedTasks) { task in
-                        CompletedTaskRow(task: task) { toggle(task) }
+                    ForEach(viewModel.props.completed) { row in
+                        CompletedTaskRow(row: row) {
+                            viewModel.onEvent(.toggle(id: row.id, reduceMotion: reduceMotion))
+                        }
                     }
                 }
             }
             .padding(.horizontal, 18)
-            .padding(.bottom, 120) 
+            .padding(.bottom, 120)
         }
     }
 
@@ -79,27 +78,20 @@ struct TaskListView: View {
                     .font(.system(size: 44, weight: .bold))
                     .foregroundStyle(AppColor.textPrimary)
 
-                Text("\(activeTasks.count) активних · \(completedTasks.count) виконано")
+                Text("\(viewModel.props.active.count) активних · \(viewModel.props.completed.count) виконано")
                     .font(.system(size: 15))
                     .foregroundStyle(AppColor.textSecondary)
             }
 
             Spacer(minLength: 12)
 
-            ProgressRing(progress: progress)
+            ProgressRing(progress: viewModel.props.progress)
                 .padding(.top, 16)
         }
         .padding(.top, 8)
     }
-
-    private func toggle(_ task: TodoTask) {
-        guard let index = tasks.firstIndex(where: { $0.id == task.id }) else { return }
-        withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.85)) {
-            tasks[index].isDone.toggle()
-        }
-    }
 }
 
 #Preview {
-    TaskListView()
+    TaskListView(viewModel: TaskListViewModel().eraseToAnyViewModel())
 }
