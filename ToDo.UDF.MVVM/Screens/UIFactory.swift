@@ -17,6 +17,8 @@ protocol UIFactory {
 
 @MainActor
 final class DefaultUIFactory: UIFactory {
+    nonisolated init() {}
+
     func taskCreatedViewModel(
         task: TaskSummary,
         onEffect: @escaping (CoordinatorEffect) -> Void
