@@ -2,31 +2,25 @@
 //  ToDo_UDF_MVVMApp.swift
 //  ToDo.UDF.MVVM
 //
-//  Created by Yarmolchuk on 24.06.2026.
-//
 
 import SwiftUI
 import SwiftData
 
 @main
 struct ToDo_UDF_MVVMApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+    @State private var modelContainer: ModelContainer
+    private let tasksUseCases: TasksUseCases
 
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    init() {
+        let container = AppComposition.bootstrap()
+        _modelContainer = State(initialValue: container)
+        tasksUseCases = AppComposition.tasksUseCases(container: container)
+    }
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TaskFlowView(useCases: tasksUseCases)
+                .modelContainer(modelContainer)
         }
-        .modelContainer(sharedModelContainer)
     }
 }
