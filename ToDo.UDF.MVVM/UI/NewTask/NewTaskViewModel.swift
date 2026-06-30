@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import OSLog
 
 @MainActor
 @Observable
@@ -66,7 +67,9 @@ final class NewTaskViewModel: UdfViewModel {
                 try await addTask(task)
                 onEffect(.saveRequested)
             } catch {
-                // #4: title уже захищений canSave; показ помилки/навігація — у #5.
+                // #4: лише лог; показ помилки/навігація — у #5.
+                Logger(subsystem: "ToDo.UDF.MVVM", category: "NewTask")
+                    .error("Не вдалося зберегти задачу: \(error.localizedDescription, privacy: .public)")
             }
         }
     }
