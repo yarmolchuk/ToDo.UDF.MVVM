@@ -12,7 +12,12 @@ final class TaskFlowCoordinator: Coordinator {
 
     @ObservationIgnored private let factory: UIFactory
 
-    init(factory: UIFactory = DefaultUIFactory()) {
+    /// Convenience init for production: wires live SwiftData use cases.
+    convenience init() {
+        self.init(factory: DefaultUIFactory(useCases: DataAssembly.makeLiveUseCases()))
+    }
+
+    init(factory: UIFactory) {
         self.factory = factory
     }
 
@@ -37,11 +42,9 @@ final class TaskFlowCoordinator: Coordinator {
             .eraseToAnyViewModel()
     }
 
-    func makeTaskListViewModel(
-        tasks: [TodoTask] = TodoTask.sampleList
-    ) -> AnyUdfViewModel<TaskListView.Props, TaskListView.SyncEvent, TaskListView.AsyncEvent> {
+    func makeTaskListViewModel() -> AnyUdfViewModel<TaskListView.Props, TaskListView.SyncEvent, TaskListView.AsyncEvent> {
         factory
-            .taskListViewModel(tasks: tasks, onEffect: { [weak self] effect in self?.handle(effect) })
+            .taskListViewModel(onEffect: { [weak self] effect in self?.handle(effect) })
             .eraseToAnyViewModel()
     }
 

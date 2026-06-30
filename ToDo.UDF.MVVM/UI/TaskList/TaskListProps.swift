@@ -15,9 +15,11 @@ extension TaskListView {
     }
 
     enum SyncEvent: Equatable {
-        case toggle(id: UUID, reduceMotion: Bool)
         case addTapped
     }
 
-    enum AsyncEvent: Equatable {}
+    enum AsyncEvent: Equatable {
+        case load
+        case toggle(id: UUID)
+    }
 }

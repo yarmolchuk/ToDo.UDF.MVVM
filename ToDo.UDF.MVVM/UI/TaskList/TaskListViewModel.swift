@@ -2,8 +2,8 @@
 //  TaskListViewModel.swift
 //  ToDo.UDF.MVVM
 //
-//  UDF-ViewModel списку задач. Тримає [TodoTask] як джерело істини
-//  й деривує Props ([TaskRow] + progress).
+//  UDF-ViewModel списку задач. Завантажує задачі через FetchTasksUseCase
+//  і перемикає через ToggleTaskUseCase (обидва — async).
 //
 
 import SwiftUI
@@ -17,32 +17,39 @@ final class TaskListViewModel: UdfViewModel {
 
     private(set) var props: Props
 
-    @ObservationIgnored private var tasks: [TodoTask]
+    @ObservationIgnored private let useCases: TasksUseCases
     @ObservationIgnored private let onEffect: (CoordinatorEffect) -> Void
 
     init(
-        tasks: [TodoTask] = TodoTask.sampleList,
+        useCases: TasksUseCases,
         onEffect: @escaping (CoordinatorEffect) -> Void = { _ in }
     ) {
-        self.tasks = tasks
+        self.useCases = useCases
         self.onEffect = onEffect
-        self.props = Self.makeProps(from: tasks)
+        self.props = Props(active: [], completed: [], progress: 0)
     }
 
     func onEvent(_ event: SyncEvent) {
         switch event {
-        case let .toggle(id, reduceMotion):
-            guard let i = tasks.firstIndex(where: { $0.id == id }) else { return }
-            tasks[i].isDone.toggle()
-            withAnimation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.85)) {
-                props = Self.makeProps(from: tasks)
-            }
         case .addTapped:
             onEffect(.createTaskRequested)
         }
     }
 
-    func onAsyncEvent(_ event: AsyncEvent) async {}
+    func onAsyncEvent(_ event: AsyncEvent) async {
+        switch event {
+        case .load:
+            await reload()
+        case let .toggle(id):
+            try? await useCases.toggleTask(id: id)
+            await reload()
+        }
+    }
+
+    private func reload() async {
+        let tasks = (try? await useCases.fetchTasks()) ?? []
+        props = Self.makeProps(from: tasks)
+    }
 
     private static func makeProps(from tasks: [TodoTask]) -> Props {
         let rows = tasks.map {

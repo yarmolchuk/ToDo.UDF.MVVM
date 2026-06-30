@@ -3,7 +3,7 @@
 //  ToDo.UDF.MVVM
 //
 //  Екран списку задач. Керується UDF через AnyUdfViewModel:
-//  toggle і прогрес приходять із Props, побудованих у ViewModel.
+//  дані завантажуються через .load, toggle і прогрес приходять із Props.
 //
 
 import SwiftUI
@@ -29,6 +29,7 @@ struct TaskListView: View {
                 .padding(24)
         }
         .sensoryFeedback(.selection, trigger: viewModel.props.completed.count)
+        .task { await viewModel.onAsync(.load) }
     }
 
     private var content: some View {
@@ -47,7 +48,7 @@ struct TaskListView: View {
                 } else {
                     ForEach(viewModel.props.active) { row in
                         TaskListRow(row: row) {
-                            viewModel.onEvent(.toggle(id: row.id, reduceMotion: reduceMotion))
+                            Task { await viewModel.onAsync(.toggle(id: row.id)) }
                         }
                     }
                 }
@@ -59,7 +60,7 @@ struct TaskListView: View {
 
                     ForEach(viewModel.props.completed) { row in
                         CompletedTaskRow(row: row) {
-                            viewModel.onEvent(.toggle(id: row.id, reduceMotion: reduceMotion))
+                            Task { await viewModel.onAsync(.toggle(id: row.id)) }
                         }
                     }
                 }
@@ -93,5 +94,7 @@ struct TaskListView: View {
 }
 
 #Preview {
-    TaskListView(viewModel: TaskListViewModel().eraseToAnyViewModel())
+    let repo = InMemoryTasksRepository(seed: TodoTask.sampleList)
+    let useCases = DataAssembly.makeUseCases(repository: repo)
+    TaskListView(viewModel: TaskListViewModel(useCases: useCases).eraseToAnyViewModel())
 }

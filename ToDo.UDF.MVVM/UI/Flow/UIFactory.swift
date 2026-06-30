@@ -3,6 +3,7 @@
 //  ToDo.UDF.MVVM
 //
 //  Будує ViewModel-и фічі та інжектить у них onEffect-колбек.
+//  Отримує TasksUseCases як DI-пакет для TaskListViewModel.
 //
 
 import Foundation
@@ -15,7 +16,6 @@ protocol UIFactory {
     ) -> TaskCreatedViewModel
 
     func taskListViewModel(
-        tasks: [TodoTask],
         onEffect: @escaping (CoordinatorEffect) -> Void
     ) -> TaskListViewModel
 
@@ -26,7 +26,11 @@ protocol UIFactory {
 
 @MainActor
 final class DefaultUIFactory: UIFactory {
-    nonisolated init() {}
+    private let useCases: TasksUseCases
+
+    init(useCases: TasksUseCases) {
+        self.useCases = useCases
+    }
 
     func taskCreatedViewModel(
         task: TaskSummary,
@@ -36,10 +40,9 @@ final class DefaultUIFactory: UIFactory {
     }
 
     func taskListViewModel(
-        tasks: [TodoTask],
         onEffect: @escaping (CoordinatorEffect) -> Void
     ) -> TaskListViewModel {
-        TaskListViewModel(tasks: tasks, onEffect: onEffect)
+        TaskListViewModel(useCases: useCases, onEffect: onEffect)
     }
 
     func newTaskViewModel(
