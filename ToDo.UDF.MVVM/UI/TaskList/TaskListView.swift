@@ -65,7 +65,7 @@ struct TaskListView: View {
     private var header: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 8) {
-                SectionLabel(text: "Сьогодні · 24 черв")
+                SectionLabel(text: "Сьогодні · \(viewModel.props.headerDate)")
 
                 Text("Задачі")
                     .font(.system(size: 44, weight: .bold))

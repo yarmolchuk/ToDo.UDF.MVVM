@@ -5,6 +5,7 @@ extension TaskListView {
         var active: [TaskRow]
         var completed: [TaskRow]
         var progress: Double
+        var headerDate: String
     }
 
     enum SyncEvent: Equatable {

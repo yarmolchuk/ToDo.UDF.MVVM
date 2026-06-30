@@ -57,6 +57,6 @@ final class TaskListViewModel: UdfViewModel {
         let active = rows.filter { !$0.isDone }
         let completed = rows.filter { $0.isDone }
         let progress = rows.isEmpty ? 0 : Double(completed.count) / Double(rows.count)
-        return Props(active: active, completed: completed, progress: progress)
+        return Props(active: active, completed: completed, progress: progress, headerDate: TaskDateFormatter.string(from: Date()))
     }
 }
