@@ -48,7 +48,7 @@ struct TaskListView: View {
                 } else {
                     ForEach(viewModel.props.active) { row in
                         TaskListRow(row: row) {
-                            Task { await viewModel.onAsync(.toggle(id: row.id)) }
+                            Task { await viewModel.onAsync(.toggle(id: row.id, reduceMotion: reduceMotion)) }
                         }
                     }
                 }
@@ -60,7 +60,7 @@ struct TaskListView: View {
 
                     ForEach(viewModel.props.completed) { row in
                         CompletedTaskRow(row: row) {
-                            Task { await viewModel.onAsync(.toggle(id: row.id)) }
+                            Task { await viewModel.onAsync(.toggle(id: row.id, reduceMotion: reduceMotion)) }
                         }
                     }
                 }
@@ -94,7 +94,9 @@ struct TaskListView: View {
 }
 
 #Preview {
-    let repo = InMemoryTasksRepository(seed: TodoTask.sampleList)
-    let useCases = DataAssembly.makeUseCases(repository: repo)
-    TaskListView(viewModel: TaskListViewModel(useCases: useCases).eraseToAnyViewModel())
+    let repository = InMemoryTasksRepository()
+    TaskListView(viewModel: TaskListViewModel(
+        fetchTasks: DefaultFetchTasksUseCase(repository: repository),
+        toggleTask: DefaultToggleTaskUseCase(repository: repository)
+    ).eraseToAnyViewModel())
 }

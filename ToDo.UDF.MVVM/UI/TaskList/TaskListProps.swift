@@ -20,6 +20,6 @@ extension TaskListView {
 
     enum AsyncEvent: Equatable {
         case load
-        case toggle(id: UUID)
+        case toggle(id: UUID, reduceMotion: Bool)
     }
 }

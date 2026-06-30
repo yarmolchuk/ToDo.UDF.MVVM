@@ -2,8 +2,8 @@
 //  TaskListViewModel.swift
 //  ToDo.UDF.MVVM
 //
-//  UDF-ViewModel списку задач. Завантажує задачі через FetchTasksUseCase
-//  і перемикає через ToggleTaskUseCase (обидва — async).
+//  UDF-ViewModel списку задач. Вантажить задачі через FetchTasksUseCase,
+//  перемикає через ToggleTaskUseCase і деривує Props ([TaskRow] + progress).
 //
 
 import SwiftUI
@@ -17,16 +17,19 @@ final class TaskListViewModel: UdfViewModel {
 
     private(set) var props: Props
 
-    @ObservationIgnored private let useCases: TasksUseCases
+    @ObservationIgnored private let fetchTasks: any FetchTasksUseCase
+    @ObservationIgnored private let toggleTask: any ToggleTaskUseCase
     @ObservationIgnored private let onEffect: (CoordinatorEffect) -> Void
 
     init(
-        useCases: TasksUseCases,
+        fetchTasks: any FetchTasksUseCase,
+        toggleTask: any ToggleTaskUseCase,
         onEffect: @escaping (CoordinatorEffect) -> Void = { _ in }
     ) {
-        self.useCases = useCases
+        self.fetchTasks = fetchTasks
+        self.toggleTask = toggleTask
         self.onEffect = onEffect
-        self.props = Props(active: [], completed: [], progress: 0)
+        self.props = Self.makeProps(from: [])
     }
 
     func onEvent(_ event: SyncEvent) {
@@ -39,16 +42,19 @@ final class TaskListViewModel: UdfViewModel {
     func onAsyncEvent(_ event: AsyncEvent) async {
         switch event {
         case .load:
-            await reload()
-        case let .toggle(id):
-            try? await useCases.toggleTask(id: id)
-            await reload()
+            await reload(animated: false)
+        case let .toggle(id, reduceMotion):
+            try? await toggleTask(id: id)
+            await reload(animated: !reduceMotion)
         }
     }
 
-    private func reload() async {
-        let tasks = (try? await useCases.fetchTasks()) ?? []
-        props = Self.makeProps(from: tasks)
+    private func reload(animated: Bool) async {
+        let tasks = (try? await fetchTasks()) ?? []
+        let newProps = Self.makeProps(from: tasks)
+        withAnimation(animated ? .spring(response: 0.4, dampingFraction: 0.85) : nil) {
+            props = newProps
+        }
     }
 
     private static func makeProps(from tasks: [TodoTask]) -> Props {

@@ -3,49 +3,43 @@ import Testing
 
 @MainActor
 struct UIFactoryTests {
-    private func makeUseCases() -> TasksUseCases {
-        DataAssembly.makeUseCases(repository: InMemoryTasksRepository(seed: TodoTask.sampleList))
+    private func makeFactory(seed: [TodoTask] = TodoTask.sampleList) -> DefaultUIFactory {
+        DefaultUIFactory(useCases: DataAssembly.makeUseCases(repository: InMemoryTasksRepository(seed: seed)))
     }
 
     @Test func buildsTaskCreatedViewModelCarryingTask() {
-        let factory = DefaultUIFactory(useCases: makeUseCases())
-        let vm = factory.taskCreatedViewModel(task: .sample, onEffect: { _ in })
+        let vm = makeFactory().taskCreatedViewModel(task: .sample, onEffect: { _ in })
         #expect(vm.props.task == .sample)
     }
 
-    @Test func builtViewModelEmitsEffect() {
+    @Test func builtTaskCreatedViewModelEmitsEffect() {
         var received: CoordinatorEffect?
-        let factory = DefaultUIFactory(useCases: makeUseCases())
-        let vm = factory.taskCreatedViewModel(task: .sample, onEffect: { received = $0 })
+        let vm = makeFactory().taskCreatedViewModel(task: .sample, onEffect: { received = $0 })
         vm.onEvent(.continueTapped)
         #expect(received == .finishCreated)
     }
 
-    @Test func buildsTaskListViewModelWithEmptyInitialProps() {
-        let factory = DefaultUIFactory(useCases: makeUseCases())
-        let vm = factory.taskListViewModel(onEffect: { _ in })
-        #expect(vm.props.active.isEmpty)
-        #expect(vm.props.completed.isEmpty)
+    @Test func buildsTaskListViewModel() async {
+        let vm = makeFactory().taskListViewModel(onEffect: { _ in })
+        await vm.onAsyncEvent(.load)
+        #expect(vm.props.active.count + vm.props.completed.count == TodoTask.sampleList.count)
     }
 
     @Test func builtTaskListViewModelEmitsEffect() {
         var received: CoordinatorEffect?
-        let factory = DefaultUIFactory(useCases: makeUseCases())
-        let vm = factory.taskListViewModel(onEffect: { received = $0 })
+        let vm = makeFactory().taskListViewModel(onEffect: { received = $0 })
         vm.onEvent(.addTapped)
         #expect(received == .createTaskRequested)
     }
 
     @Test func buildsNewTaskViewModel() {
-        let factory = DefaultUIFactory(useCases: makeUseCases())
-        let vm = factory.newTaskViewModel(onEffect: { _ in })
+        let vm = makeFactory().newTaskViewModel(onEffect: { _ in })
         #expect(vm.props.canSave)
     }
 
     @Test func builtNewTaskViewModelEmitsEffect() {
         var received: CoordinatorEffect?
-        let factory = DefaultUIFactory(useCases: makeUseCases())
-        let vm = factory.newTaskViewModel(onEffect: { received = $0 })
+        let vm = makeFactory().newTaskViewModel(onEffect: { received = $0 })
         vm.onEvent(.backTapped)
         #expect(received == .dismissForm)
     }

@@ -12,13 +12,12 @@ final class TaskFlowCoordinator: Coordinator {
 
     @ObservationIgnored private let factory: UIFactory
 
-    /// Convenience init for production: wires live SwiftData use cases.
-    convenience init() {
-        self.init(factory: DefaultUIFactory(useCases: DataAssembly.makeLiveUseCases()))
-    }
-
     init(factory: UIFactory) {
         self.factory = factory
+    }
+
+    convenience init() {
+        self.init(factory: DefaultUIFactory(useCases: DataAssembly.makeLiveUseCases()))
     }
 
     func handle(_ effect: CoordinatorEffect) {

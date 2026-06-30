@@ -5,9 +5,7 @@ import SwiftUI
 @MainActor
 struct TaskFlowCoordinatorTests {
     private func makeCoordinator() -> TaskFlowCoordinator {
-        let useCases = DataAssembly.makeUseCases(
-            repository: InMemoryTasksRepository(seed: TodoTask.sampleList)
-        )
+        let useCases = DataAssembly.makeUseCases(repository: InMemoryTasksRepository())
         return TaskFlowCoordinator(factory: DefaultUIFactory(useCases: useCases))
     }
 
@@ -19,7 +17,7 @@ struct TaskFlowCoordinatorTests {
         #expect(coordinator.router.path.isEmpty)
     }
 
-    @Test func makesViewModelCarryingTask() {
+    @Test func makesTaskCreatedViewModelCarryingTask() {
         let coordinator = makeCoordinator()
         let vm = coordinator.makeTaskCreatedViewModel(task: .sample)
         #expect(vm.props.task == .sample)
@@ -31,11 +29,10 @@ struct TaskFlowCoordinatorTests {
         #expect(coordinator.router.path.isEmpty)
     }
 
-    @Test func makesTaskListViewModelWithEmptyInitialProps() {
+    @Test func makesTaskListViewModel() {
         let coordinator = makeCoordinator()
         let vm = coordinator.makeTaskListViewModel()
-        #expect(vm.props.active.isEmpty)
-        #expect(vm.props.completed.isEmpty)
+        #expect(vm.props.active.isEmpty)   // до .load список порожній
     }
 
     @Test func saveRequestedIsNoOp() {
