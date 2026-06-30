@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TaskSummary: Equatable {
+struct TaskSummary: Hashable {
     let title: String
     let time: String
     let priority: TaskPriority
