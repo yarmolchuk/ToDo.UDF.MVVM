@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - Platform: iOS 26.2 deployment; module `ToDo_UDF_MVVM`; Xcode scheme `ToDo.UDF.MVVM`.
-- Test command: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3'`; single suite: append `-only-testing:ToDo.UDF.MVVMTests/<SuiteType>`. Green = `** TEST SUCCEEDED **`; red = `** TEST FAILED **` or `** TEST BUILD FAILED **`.
+- Test command: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1'`; single suite: append `-only-testing:ToDo.UDF.MVVMTests/<SuiteType>`. Green = `** TEST SUCCEEDED **`; red = `** TEST FAILED **` or `** TEST BUILD FAILED **`.
 - Swift Testing only (`@Test`, `#expect`, `@MainActor struct` suites). No XCTest.
 - `@Observable` + `@MainActor` ViewModels/repositories; NO Combine. ViewModel dependencies and internal state are `@ObservationIgnored`; the single public `props` is rebuilt via a static `makeProps`/private `render` and reassigned.
 - UDF triad unchanged: `Props: Equatable`, `SyncEvent`/`AsyncEvent` enums, `AnyUdfViewModel<Props, SyncEvent, AsyncEvent>`, `UdfViewModel` (`props`/`onEvent`/`onAsyncEvent`/`eraseToAnyViewModel()`).
@@ -79,7 +79,7 @@ struct TaskPriorityTests {
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/TaskPriorityTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/TaskPriorityTests`
 Expected: `** TEST BUILD FAILED **` — `TaskPriority` has no `init(rawValue:)` and `TodoTask` is not `Hashable`.
 
 - [ ] **Step 3: Create the Domain enum**
@@ -220,7 +220,7 @@ extension TaskSummary {
 
 - [ ] **Step 7: Run the suite to verify green + no regression**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3'`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1'`
 Expected: `** TEST SUCCEEDED **` — `TaskPriorityTests` passes and all pre-existing tests still pass (pure move; `TaskPriority`/`TodoTask`/`TaskSummary` resolve unchanged).
 
 - [ ] **Step 8: Commit**
@@ -316,7 +316,7 @@ struct TaskUseCasesTests {
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/TaskUseCasesTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/TaskUseCasesTests`
 Expected: `** TEST BUILD FAILED **` — `cannot find 'TasksRepository' / 'DefaultFetchTasksUseCase' / 'TaskValidationError' in scope`.
 
 - [ ] **Step 3: Create the repository protocol**
@@ -416,7 +416,7 @@ struct TasksUseCases {
 
 - [ ] **Step 6: Run the test to verify it passes**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/TaskUseCasesTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/TaskUseCasesTests`
 Expected: `** TEST SUCCEEDED **`.
 
 - [ ] **Step 7: Commit**
@@ -478,7 +478,7 @@ struct TaskEntityMappingTests {
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/TaskEntityMappingTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/TaskEntityMappingTests`
 Expected: `** TEST BUILD FAILED **` — `cannot find 'TaskEntity' in scope`.
 
 - [ ] **Step 3: Create the SwiftData entity + mappers**
@@ -541,7 +541,7 @@ extension TaskEntity {
 
 - [ ] **Step 4: Run the test to verify it passes**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/TaskEntityMappingTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/TaskEntityMappingTests`
 Expected: `** TEST SUCCEEDED **`.
 
 - [ ] **Step 5: Commit**
@@ -620,7 +620,7 @@ struct SwiftDataTasksRepositoryTests {
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/SwiftDataTasksRepositoryTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/SwiftDataTasksRepositoryTests`
 Expected: `** TEST BUILD FAILED **` — `cannot find 'SwiftDataTasksRepository' in scope`.
 
 - [ ] **Step 3: Create the repository**
@@ -671,7 +671,7 @@ final class SwiftDataTasksRepository: TasksRepository {
 
 - [ ] **Step 4: Run the test to verify it passes**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/SwiftDataTasksRepositoryTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/SwiftDataTasksRepositoryTests`
 Expected: `** TEST SUCCEEDED **`.
 
 - [ ] **Step 5: Commit**
@@ -766,7 +766,7 @@ struct DataAssemblyTests {
 
 - [ ] **Step 2: Run the tests to verify they fail**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/InMemoryTasksRepositoryTests -only-testing:ToDo.UDF.MVVMTests/DataAssemblyTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/InMemoryTasksRepositoryTests -only-testing:ToDo.UDF.MVVMTests/DataAssemblyTests`
 Expected: `** TEST BUILD FAILED **` — `cannot find 'InMemoryTasksRepository' / 'DataAssembly' in scope`.
 
 - [ ] **Step 3: Create the in-memory repository**
@@ -862,7 +862,7 @@ enum DataAssembly {
 
 - [ ] **Step 5: Run the tests to verify they pass**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/InMemoryTasksRepositoryTests -only-testing:ToDo.UDF.MVVMTests/DataAssemblyTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/InMemoryTasksRepositoryTests -only-testing:ToDo.UDF.MVVMTests/DataAssemblyTests`
 Expected: `** TEST SUCCEEDED **`.
 
 - [ ] **Step 6: Commit**
@@ -1078,7 +1078,7 @@ struct TaskFlowCoordinatorTests {
 
 - [ ] **Step 2: Run to verify it fails**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3'`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1'`
 Expected: `** TEST BUILD FAILED **` — `.toggle`/`.load` not async, `TaskListViewModel.init(fetchTasks:toggleTask:onEffect:)` missing, `DefaultUIFactory(useCases:)` missing, `TaskFlowCoordinator(factory:)` missing.
 
 - [ ] **Step 3: Update `TaskListProps.swift`**
@@ -1366,7 +1366,7 @@ final class TaskFlowCoordinator: Coordinator {
 
 - [ ] **Step 8: Run the suite to verify green**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3'`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1'`
 Expected: `** TEST SUCCEEDED **` — all suites pass (NewTask suite still on its current API; `TaskFlowView` compiles via `convenience init()`).
 
 - [ ] **Step 9: Commit**
@@ -1498,7 +1498,7 @@ struct NewTaskViewModelTests {
 
 - [ ] **Step 2: Run to verify it fails**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3' -only-testing:ToDo.UDF.MVVMTests/NewTaskViewModelTests`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1' -only-testing:ToDo.UDF.MVVMTests/NewTaskViewModelTests`
 Expected: `** TEST BUILD FAILED **` — `NewTaskViewModel(addTask:onEffect:)` and `.save` (async) do not exist; `.saveTapped` removed.
 
 - [ ] **Step 3: Create `TaskTimeFormatter.swift`**
@@ -1717,7 +1717,7 @@ to:
 
 - [ ] **Step 8: Run the full suite to verify green**
 
-Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16,OS=26.3'`
+Run: `xcodebuild test -scheme 'ToDo.UDF.MVVM' -destination 'platform=iOS Simulator,name=iPhone 16e,OS=26.3.1'`
 Expected: `** TEST SUCCEEDED **` — every suite passes, including the unchanged `UIFactoryTests`/`TaskFlowCoordinatorTests` (the new-task VM still exposes `canSave`/`backTapped`).
 
 - [ ] **Step 9: Commit**
