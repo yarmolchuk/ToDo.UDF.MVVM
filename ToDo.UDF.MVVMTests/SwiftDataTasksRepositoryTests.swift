@@ -10,7 +10,7 @@ struct SwiftDataTasksRepositoryTests {
             for: TaskEntity.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
-        return SwiftDataTasksRepository(container: container)
+        return SwiftDataTasksRepository(modelContainer: container)
     }
 
     @Test func addThenFetchRoundTrips() async throws {

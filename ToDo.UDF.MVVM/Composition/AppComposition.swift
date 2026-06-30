@@ -14,6 +14,6 @@ enum AppComposition {
     }
 
     static func tasksUseCases(container: ModelContainer) -> TasksUseCases {
-        DataAssembly.makeUseCases(repository: SwiftDataTasksRepository(container: container))
+        DataAssembly.makeUseCases(repository: SwiftDataTasksRepository(modelContainer: container))
     }
 }
