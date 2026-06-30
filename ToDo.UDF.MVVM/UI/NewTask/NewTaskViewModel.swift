@@ -2,7 +2,8 @@
 //  NewTaskViewModel.swift
 //  ToDo.UDF.MVVM
 //
-//  UDF-ViewModel форми створення задачі. Зберігає через AddTaskUseCase.
+//  UDF-ViewModel форми створення задачі. Перекладач між моделями
+//  (TaskWhen/TaskPriority) і presentation-типами Props (When/PriorityBadge).
 //
 
 import SwiftUI
@@ -30,9 +31,9 @@ final class NewTaskViewModel: UdfViewModel {
         self.props = Props(
             title: title,
             notes: "Підготувати дек та ключові метрики",
-            when: .today,
+            when: Self.makeWhen(.today),
             time: Self.defaultTime,
-            priority: .medium,
+            priority: PriorityBadge(.medium),
             isPickingTime: false,
             canSave: Self.canSave(title: title)
         )
@@ -61,17 +62,25 @@ final class NewTaskViewModel: UdfViewModel {
                 title: props.title,
                 notes: props.notes.isEmpty ? nil : props.notes,
                 time: TaskTimeFormatter.string(from: props.time),
-                priority: props.priority
+                priority: props.priority.domain
             )
             do {
                 try await addTask(task)
-                let summary = TaskSummary(title: task.title, time: task.time, priority: task.priority)
+                let summary = TaskSummary(title: task.title, time: task.time, priority: props.priority)
                 onEffect(.saveRequested(summary))
             } catch {
                 // #5: лог; показ помилки користувачу — поза обсягом.
                 Logger(subsystem: "ToDo.UDF.MVVM", category: "NewTask")
                     .error("Не вдалося зберегти задачу: \(error.localizedDescription, privacy: .public)")
             }
+        }
+    }
+
+    private static func makeWhen(_ when: TaskWhen) -> NewTaskView.Props.When {
+        switch when {
+        case .today: .today
+        case .tomorrow: .tomorrow
+        case .later: .later
         }
     }
 

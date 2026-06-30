@@ -72,7 +72,7 @@ struct NewTaskView: View {
 
             field(label: "Коли") {
                 SegmentedControl(
-                    options: TaskWhen.allCases,
+                    options: Props.When.allCases,
                     selection: Binding(
                         get: { viewModel.props.when },
                         set: { viewModel.onEvent(.whenChanged($0)) }
@@ -102,7 +102,7 @@ struct NewTaskView: View {
 
             field(label: "Пріоритет") {
                 SegmentedControl(
-                    options: TaskPriority.allCases,
+                    options: PriorityBadge.allCases,
                     selection: Binding(
                         get: { viewModel.props.priority },
                         set: { viewModel.onEvent(.priorityChanged($0)) }

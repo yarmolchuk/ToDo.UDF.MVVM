@@ -52,7 +52,7 @@ struct TaskListRow: View {
 }
 
 private struct PriorityTag: View {
-    let priority: TaskPriority
+    let priority: PriorityBadge
 
     var body: some View {
         HStack(spacing: 5) {

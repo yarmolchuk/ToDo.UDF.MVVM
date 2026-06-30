@@ -13,6 +13,6 @@ struct TaskRow: Equatable, Identifiable {
     let title: String
     let notes: String?
     let time: String
-    let priority: TaskPriority
+    let priority: PriorityBadge
     let isDone: Bool
 }

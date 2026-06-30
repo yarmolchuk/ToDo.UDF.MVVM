@@ -60,7 +60,7 @@ final class TaskListViewModel: UdfViewModel {
     private static func makeProps(from tasks: [TodoTask]) -> Props {
         let rows = tasks.map {
             TaskRow(id: $0.id, title: $0.title, notes: $0.notes,
-                    time: $0.time, priority: $0.priority, isDone: $0.isDone)
+                    time: $0.time, priority: PriorityBadge($0.priority), isDone: $0.isDone)
         }
         let active = rows.filter { !$0.isDone }
         let completed = rows.filter { $0.isDone }

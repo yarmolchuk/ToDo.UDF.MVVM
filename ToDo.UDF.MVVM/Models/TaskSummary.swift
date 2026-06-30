@@ -10,7 +10,7 @@ import Foundation
 struct TaskSummary: Hashable {
     let title: String
     let time: String
-    let priority: TaskPriority
+    let priority: PriorityBadge
 }
 
 extension TaskSummary {
