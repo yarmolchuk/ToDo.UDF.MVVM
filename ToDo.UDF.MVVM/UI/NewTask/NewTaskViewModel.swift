@@ -2,7 +2,7 @@
 //  NewTaskViewModel.swift
 //  ToDo.UDF.MVVM
 //
-//  UDF-ViewModel форми створення задачі.
+//  UDF-ViewModel форми створення задачі. Зберігає через AddTaskUseCase.
 //
 
 import SwiftUI
@@ -16,9 +16,14 @@ final class NewTaskViewModel: UdfViewModel {
 
     private(set) var props: Props
 
+    @ObservationIgnored private let addTask: any AddTaskUseCase
     @ObservationIgnored private let onEffect: (CoordinatorEffect) -> Void
 
-    init(onEffect: @escaping (CoordinatorEffect) -> Void = { _ in }) {
+    init(
+        addTask: any AddTaskUseCase,
+        onEffect: @escaping (CoordinatorEffect) -> Void = { _ in }
+    ) {
+        self.addTask = addTask
         self.onEffect = onEffect
         let title = "Зустріч із інвестором"
         self.props = Props(
@@ -43,15 +48,28 @@ final class NewTaskViewModel: UdfViewModel {
         case .priorityChanged(let v): props.priority = v
         case .timePickerOpened:       props.isPickingTime = true
         case .timePickerClosed:       props.isPickingTime = false
-        case .saveTapped:
-            guard props.canSave else { return }
-            onEffect(.saveRequested)
-        case .backTapped:
-            onEffect(.dismissForm)
+        case .backTapped:             onEffect(.dismissForm)
         }
     }
 
-    func onAsyncEvent(_ event: AsyncEvent) async {}
+    func onAsyncEvent(_ event: AsyncEvent) async {
+        switch event {
+        case .save:
+            guard props.canSave else { return }
+            let task = TodoTask(
+                title: props.title,
+                notes: props.notes.isEmpty ? nil : props.notes,
+                time: TaskTimeFormatter.string(from: props.time),
+                priority: props.priority
+            )
+            do {
+                try await addTask(task)
+                onEffect(.saveRequested)
+            } catch {
+                // #4: title уже захищений canSave; показ помилки/навігація — у #5.
+            }
+        }
+    }
 
     private static func canSave(title: String) -> Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty

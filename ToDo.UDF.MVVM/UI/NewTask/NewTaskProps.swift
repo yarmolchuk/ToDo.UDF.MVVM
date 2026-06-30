@@ -26,9 +26,10 @@ extension NewTaskView {
         case priorityChanged(TaskPriority)
         case timePickerOpened
         case timePickerClosed
-        case saveTapped
         case backTapped
     }
 
-    enum AsyncEvent: Equatable {}
+    enum AsyncEvent: Equatable {
+        case save
+    }
 }

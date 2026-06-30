@@ -30,7 +30,7 @@ struct NewTaskView: View {
                         .padding(.bottom, 24)
                 }
 
-                Button("Зберегти") { viewModel.onEvent(.saveTapped) }
+                Button("Зберегти") { Task { await viewModel.onAsync(.save) } }
                     .buttonStyle(PrimaryButtonStyle())
                     .disabled(!viewModel.props.canSave)
                     .padding(.horizontal, 20)
@@ -87,7 +87,7 @@ struct NewTaskView: View {
                     viewModel.onEvent(.timePickerOpened)
                 } label: {
                     TimeBadge(
-                        time: Self.timeString(viewModel.props.time),
+                        time: TaskTimeFormatter.string(from: viewModel.props.time),
                         fontSize: 16,
                         horizontalPadding: 14,
                         verticalPadding: 10
@@ -95,7 +95,7 @@ struct NewTaskView: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Час")
-                .accessibilityValue(Self.timeString(viewModel.props.time))
+                .accessibilityValue(TaskTimeFormatter.string(from: viewModel.props.time))
             }
 
             divider
@@ -156,18 +156,10 @@ struct NewTaskView: View {
         .presentationBackground(AppColor.background)
     }
 
-    private static let timeFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "HH:mm"
-        return formatter
-    }()
-
-    private static func timeString(_ date: Date) -> String {
-        timeFormatter.string(from: date)
-    }
 }
 
 #Preview {
-    NewTaskView(viewModel: NewTaskViewModel().eraseToAnyViewModel())
+    NewTaskView(viewModel: NewTaskViewModel(
+        addTask: DefaultAddTaskUseCase(repository: InMemoryTasksRepository())
+    ).eraseToAnyViewModel())
 }

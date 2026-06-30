@@ -51,6 +51,6 @@ final class DefaultUIFactory: UIFactory {
     func newTaskViewModel(
         onEffect: @escaping (CoordinatorEffect) -> Void
     ) -> NewTaskViewModel {
-        NewTaskViewModel(onEffect: onEffect)
+        NewTaskViewModel(addTask: useCases.addTask, onEffect: onEffect)
     }
 }
