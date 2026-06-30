@@ -2,18 +2,34 @@
 //  TodoTask.swift
 //  ToDo.UDF.MVVM
 //
-//  Presentational-модель задачі для списку.
+//  Доменна сутність задачі.
 //
 
 import Foundation
 
-struct TodoTask: Identifiable {
-    let id = UUID()
+struct TodoTask: Identifiable, Equatable, Hashable, Sendable {
+    let id: UUID
     var title: String
-    var notes: String? = nil
+    var notes: String?
     var time: String
     var priority: TaskPriority
-    var isDone: Bool = false
+    var isDone: Bool
+
+    init(
+        id: UUID = UUID(),
+        title: String,
+        notes: String? = nil,
+        time: String,
+        priority: TaskPriority,
+        isDone: Bool = false
+    ) {
+        self.id = id
+        self.title = title
+        self.notes = notes
+        self.time = time
+        self.priority = priority
+        self.isDone = isDone
+    }
 }
 
 extension TodoTask {

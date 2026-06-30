@@ -3,32 +3,9 @@
 //  ToDo.UDF.MVVM
 //
 //  Легка presentational-модель задачі для екранів-підтверджень.
-//  Тут навмисно немає логіки збереження — лише те, що показуємо.
 //
 
-import SwiftUI
-
-enum TaskPriority: CaseIterable {
-    case low
-    case medium
-    case high
-
-    var title: String {
-        switch self {
-        case .low: "Низький"
-        case .medium: "Середній"
-        case .high: "Високий"
-        }
-    }
-    
-    var indicatorColor: Color {
-        switch self {
-        case .low: Color(hex: 0xC4C4C8)
-        case .medium: Color(hex: 0x71717A)
-        case .high: Color(hex: 0x16161A)
-        }
-    }
-}
+import Foundation
 
 struct TaskSummary: Equatable {
     let title: String
