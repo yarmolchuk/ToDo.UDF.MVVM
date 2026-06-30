@@ -1,10 +1,3 @@
-//
-//  TaskCreatedProps.swift
-//  ToDo.UDF.MVVM
-//
-//  UDF-стан і події екрана «Задачу створено».
-//
-
 import Foundation
 
 extension TaskCreatedView {

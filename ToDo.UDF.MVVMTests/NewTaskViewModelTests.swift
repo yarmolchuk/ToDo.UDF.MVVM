@@ -33,7 +33,7 @@ struct NewTaskViewModelTests {
 
     @Test func emptyTitleDisablesCanSave() {
         let vm = makeViewModel()
-        #expect(vm.props.canSave)               // демо-title непорожній
+        #expect(vm.props.canSave)
         vm.onEvent(.titleChanged("   "))
         #expect(!vm.props.canSave)
         vm.onEvent(.titleChanged("Назва"))
@@ -58,14 +58,14 @@ struct NewTaskViewModelTests {
         let stored = try await repository.fetchAll()
         #expect(stored.count == 1)
         #expect(stored[0].title == "Купити каву")
-        #expect(stored[0].notes == nil)             // порожні notes → nil
+        #expect(stored[0].notes == nil)
         #expect(received == .saveRequested(TaskSummary(title: "Купити каву", time: "09:30", priority: .medium)))
     }
 
     @Test func saveMapsDefaultTimeToHHmm() async throws {
         let repository = InMemoryTasksRepository(seed: [])
         let vm = makeViewModel(repository: repository)
-        await vm.onAsyncEvent(.save)                // демо-title непорожній, час 09:30
+        await vm.onAsyncEvent(.save)
         let stored = try await repository.fetchAll()
         #expect(stored[0].time == "09:30")
     }

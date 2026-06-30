@@ -1,10 +1,3 @@
-//
-//  Router.swift
-//  ToDo.UDF.MVVM
-//
-//  Навігаційний стек поверх NavigationPath (push/pop/popToRoot).
-//
-
 import SwiftUI
 
 @MainActor

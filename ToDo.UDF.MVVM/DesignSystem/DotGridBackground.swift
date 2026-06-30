@@ -1,11 +1,3 @@
-//
-//  DotGridBackground.swift
-//  ToDo.UDF.MVVM
-//
-//  Переюзовний фон: суцільна заливка + рівномірна сітка крапок.
-//  Малюється одним проходом `Canvas`, тож недорогий і масштабований.
-//
-
 import SwiftUI
 
 struct DotGridBackground: View {

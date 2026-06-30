@@ -1,8 +1,3 @@
-//
-//  ToDo_UDF_MVVMApp.swift
-//  ToDo.UDF.MVVM
-//
-
 import SwiftUI
 import SwiftData
 

@@ -1,10 +1,3 @@
-//
-//  AppComposition.swift
-//  ToDo.UDF.MVVM
-//
-//  Корінь композиції: контейнер SwiftData → репозиторій → use cases.
-//
-
 import Foundation
 import SwiftData
 

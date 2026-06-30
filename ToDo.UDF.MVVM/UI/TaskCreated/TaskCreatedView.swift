@@ -1,11 +1,3 @@
-//
-//  TaskCreatedView.swift
-//  ToDo.UDF.MVVM
-//
-//  Екран-підтвердження «Задачу створено». Керується UDF через
-//  `AnyUdfViewModel`; власної бізнес-логіки не має.
-//
-
 import SwiftUI
 
 struct TaskCreatedView: View {

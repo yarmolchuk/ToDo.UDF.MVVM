@@ -1,10 +1,3 @@
-//
-//  DataAssembly.swift
-//  ToDo.UDF.MVVM
-//
-//  Збірка шару даних: контейнер SwiftData, сидування, набір use cases.
-//
-
 import Foundation
 import SwiftData
 

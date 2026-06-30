@@ -1,10 +1,3 @@
-//
-//  Coordinator.swift
-//  ToDo.UDF.MVVM
-//
-//  Generic-ядро координатора (без посилань на presentation-типи застосунку).
-//
-
 import Foundation
 
 @MainActor

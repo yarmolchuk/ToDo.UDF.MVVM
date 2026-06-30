@@ -1,10 +1,3 @@
-//
-//  TaskFlowCoordinator.swift
-//  ToDo.UDF.MVVM
-//
-//  Координатор todo-флоу: тримає root-список, керує стеком, оживляє ефекти.
-//
-
 import SwiftUI
 
 @MainActor
@@ -35,7 +28,7 @@ final class TaskFlowCoordinator: Coordinator {
         case .createTaskRequested:
             router.push(TaskRoute.newTask)
         case .saveRequested(let summary):
-            Task { await listViewModel.onAsync(.load) }   // re-fetch так, щоб список показав нову задачу
+            Task { await listViewModel.onAsync(.load) }
             router.push(TaskRoute.created(summary))
         case .dismissForm:
             router.pop()

@@ -1,11 +1,3 @@
-//
-//  CheckboxButton.swift
-//  ToDo.UDF.MVVM
-//
-//  Інтерактивний чекбокс-перемикач: гарантований tap-target 44pt і
-//  коректний VoiceOver-стан (label + значення «Виконано/Не виконано»).
-//
-
 import SwiftUI
 
 struct CheckboxButton: View {

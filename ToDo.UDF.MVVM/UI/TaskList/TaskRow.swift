@@ -1,12 +1,3 @@
-//
-//  TaskRow.swift
-//  ToDo.UDF.MVVM
-//
-//  Незмінна view-проекція рядка задачі. Її споживають Props і компоненти
-//  рядків — не TodoTask. Мапінг TodoTask → TaskRow живе у ViewModel.
-//  Колір пріоритету — у UI-розширенні (TaskListRow), щоб модель лишалась без SwiftUI.
-//
-
 import Foundation
 
 struct TaskRow: Equatable, Identifiable {
@@ -17,7 +8,6 @@ struct TaskRow: Equatable, Identifiable {
     let priority: PriorityBadge
     let isDone: Bool
 
-    // Власний пріоритет списку. VM створює його з TaskPriority.
     enum PriorityBadge: Hashable, CaseIterable {
         case low
         case medium

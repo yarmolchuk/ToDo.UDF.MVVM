@@ -1,10 +1,3 @@
-//
-//  UIFactory.swift
-//  ToDo.UDF.MVVM
-//
-//  Будує ViewModel-и фічі з набору use cases та інжектить onEffect-колбек.
-//
-
 import Foundation
 
 @MainActor

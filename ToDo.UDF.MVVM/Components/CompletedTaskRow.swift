@@ -1,10 +1,3 @@
-//
-//  CompletedTaskRow.swift
-//  ToDo.UDF.MVVM
-//
-//  Рядок виконаної задачі: заповнений чекбокс і закреслена назва. Без картки.
-//
-
 import SwiftUI
 
 struct CompletedTaskRow: View {

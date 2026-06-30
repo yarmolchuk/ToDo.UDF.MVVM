@@ -1,10 +1,3 @@
-//
-//  TaskListRow.swift
-//  ToDo.UDF.MVVM
-//
-//  Картка активної задачі: чекбокс, назва, опис, час і пріоритет.
-//
-
 import SwiftUI
 
 struct TaskListRow: View {

@@ -1,10 +1,3 @@
-//
-//  NavBar.swift
-//  ToDo.UDF.MVVM
-//
-//  Навігаційна шапка: кнопка «назад» у квадраті + заголовок по центру.
-//
-
 import SwiftUI
 
 struct NavBar: View {

@@ -1,11 +1,3 @@
-//
-//  AnyUdfViewModel.swift
-//  ToDo.UDF.MVVM
-//
-//  Type-eraser над UdfViewModel. Замикання захоплюють @Observable base,
-//  тож Observation відстежує props крізь обгортку.
-//
-
 import SwiftUI
 
 @MainActor

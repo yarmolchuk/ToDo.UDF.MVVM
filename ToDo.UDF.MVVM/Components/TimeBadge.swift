@@ -1,10 +1,3 @@
-//
-//  TimeBadge.swift
-//  ToDo.UDF.MVVM
-//
-//  Сірий pill із часом (monospaced). Спільний для списку та форми.
-//
-
 import SwiftUI
 
 struct TimeBadge: View {

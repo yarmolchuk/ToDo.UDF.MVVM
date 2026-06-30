@@ -1,10 +1,3 @@
-//
-//  ProgressRing.swift
-//  ToDo.UDF.MVVM
-//
-//  Кільцевий індикатор прогресу з відсотком по центру.
-//
-
 import SwiftUI
 
 struct ProgressRing: View {

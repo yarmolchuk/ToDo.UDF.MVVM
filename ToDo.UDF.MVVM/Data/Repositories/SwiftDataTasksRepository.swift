@@ -1,11 +1,3 @@
-//
-//  SwiftDataTasksRepository.swift
-//  ToDo.UDF.MVVM
-//
-//  Реалізація TasksRepository на SwiftData. Володіє контейнером,
-//  працює з його головним контекстом.
-//
-
 import Foundation
 import SwiftData
 

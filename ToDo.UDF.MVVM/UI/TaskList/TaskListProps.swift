@@ -1,10 +1,3 @@
-//
-//  TaskListProps.swift
-//  ToDo.UDF.MVVM
-//
-//  UDF-стан і події екрана списку задач.
-//
-
 import Foundation
 
 extension TaskListView {

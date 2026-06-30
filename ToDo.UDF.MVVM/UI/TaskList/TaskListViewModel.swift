@@ -1,11 +1,3 @@
-//
-//  TaskListViewModel.swift
-//  ToDo.UDF.MVVM
-//
-//  UDF-ViewModel списку задач. Вантажить задачі через FetchTasksUseCase,
-//  перемикає через ToggleTaskUseCase і деривує Props ([TaskRow] + progress).
-//
-
 import SwiftUI
 
 @MainActor

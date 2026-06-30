@@ -1,10 +1,3 @@
-//
-//  SectionLabel.swift
-//  ToDo.UDF.MVVM
-//
-//  Надрядковий підпис секції: monospaced, розріджений, верхній регістр.
-//
-
 import SwiftUI
 
 struct SectionLabel: View {

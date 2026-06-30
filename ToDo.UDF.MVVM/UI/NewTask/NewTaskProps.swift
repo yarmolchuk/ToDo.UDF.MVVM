@@ -1,12 +1,3 @@
-//
-//  NewTaskProps.swift
-//  ToDo.UDF.MVVM
-//
-//  UDF-стан і події форми створення задачі. Props володіють власними
-//  presentation-типами (When/PriorityBadge) — View не знає про модельні енуми.
-//  Колір пріоритету — у UI-розширенні (NewTaskView), щоб дані лишались без SwiftUI.
-//
-
 import Foundation
 
 extension NewTaskView {
@@ -19,7 +10,6 @@ extension NewTaskView {
         var isPickingTime: Bool
         var canSave: Bool
 
-        // Власний presentation-тип форми «Коли». VM створює його з TaskWhen.
         enum When: CaseIterable, Equatable {
             case today
             case tomorrow
@@ -34,7 +24,6 @@ extension NewTaskView {
             }
         }
 
-        // Власний пріоритет форми. VM створює його з TaskPriority і повертає назад на save.
         enum PriorityBadge: Hashable, CaseIterable {
             case low
             case medium

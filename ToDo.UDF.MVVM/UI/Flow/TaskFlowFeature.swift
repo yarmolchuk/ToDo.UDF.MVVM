@@ -1,10 +1,3 @@
-//
-//  TaskFlowFeature.swift
-//  ToDo.UDF.MVVM
-//
-//  DI-контейнер фічі: залежності координатора (router + фабрика UI).
-//
-
 import Foundation
 
 @MainActor

@@ -1,11 +1,3 @@
-//
-//  TaskSummary.swift
-//  ToDo.UDF.MVVM
-//
-//  Легка presentational-модель задачі для екранів-підтверджень.
-//  Колір пріоритету — у UI-розширенні (TaskSummaryCard), щоб модель лишалась без SwiftUI.
-//
-
 import Foundation
 
 struct TaskSummary: Hashable {
@@ -13,7 +5,6 @@ struct TaskSummary: Hashable {
     let time: String
     let priority: PriorityBadge
 
-    // Власний пріоритет success-екрана. Створюється з TaskPriority у VM форми.
     enum PriorityBadge: Hashable, CaseIterable {
         case low
         case medium

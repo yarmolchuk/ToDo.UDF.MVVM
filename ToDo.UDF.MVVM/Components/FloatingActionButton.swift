@@ -1,10 +1,3 @@
-//
-//  FloatingActionButton.swift
-//  ToDo.UDF.MVVM
-//
-//  Плаваюча кнопка дії (FAB): чорний squircle із символом.
-//
-
 import SwiftUI
 
 struct FloatingActionButton: View {

@@ -1,10 +1,3 @@
-//
-//  TodoTask.swift
-//  ToDo.UDF.MVVM
-//
-//  Доменна сутність задачі.
-//
-
 import Foundation
 
 struct TodoTask: Identifiable, Equatable, Hashable, Sendable {
@@ -33,7 +26,6 @@ struct TodoTask: Identifiable, Equatable, Hashable, Sendable {
 }
 
 extension TodoTask {
-    // Демо-дані: 4 активні + 2 виконані → прогрес 33%.
     static let sampleList: [TodoTask] = [
         TodoTask(title: "Підготувати презентацію", time: "09:30", priority: .high),
         TodoTask(

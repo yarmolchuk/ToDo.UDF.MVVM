@@ -1,12 +1,3 @@
-//
-//  PrimaryButton.swift
-//  ToDo.UDF.MVVM
-//
-//  Основний стиль кнопки: чорна «пігулка» на всю ширину з білим текстом.
-//  Винесено в `ButtonStyle`, щоб перевикористовувати на інших екранах
-//  і безкоштовно мати коректний стан натискання.
-//
-
 import SwiftUI
 
 struct PrimaryButtonStyle: ButtonStyle {

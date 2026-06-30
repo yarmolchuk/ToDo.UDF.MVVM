@@ -1,10 +1,3 @@
-//
-//  TaskTimeFormatter.swift
-//  ToDo.UDF.MVVM
-//
-//  Спільне форматування часу задачі: Date → "HH:mm".
-//
-
 import Foundation
 
 enum TaskTimeFormatter {

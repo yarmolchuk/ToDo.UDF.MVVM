@@ -1,10 +1,3 @@
-//
-//  UdfViewModel.swift
-//  ToDo.UDF.MVVM
-//
-//  Ядро UDF: протокол ViewModel зі знімком стану (Props) та подіями.
-//
-
 import SwiftUI
 
 @MainActor

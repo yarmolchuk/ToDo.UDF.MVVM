@@ -1,10 +1,3 @@
-//
-//  InMemoryTasksRepository.swift
-//  ToDo.UDF.MVVM
-//
-//  In-memory реалізація TasksRepository для прев'ю та тестів.
-//
-
 import Foundation
 
 @MainActor

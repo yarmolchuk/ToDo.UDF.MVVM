@@ -1,11 +1,3 @@
-//
-//  TaskFlowView.swift
-//  ToDo.UDF.MVVM
-//
-//  Хост навігації todo-флоу: NavigationStack зі списком як коренем,
-//  форма й success — push через TaskRoute.
-//
-
 import SwiftUI
 
 struct TaskFlowView: View {

@@ -1,11 +1,3 @@
-//
-//  Checkbox.swift
-//  ToDo.UDF.MVVM
-//
-//  Квадратний чекбокс із заокругленими кутами: порожній (рамка) або
-//  заповнений (чорний фон + галочка). Перехід анімує батьківський withAnimation.
-//
-
 import SwiftUI
 
 struct Checkbox: View {

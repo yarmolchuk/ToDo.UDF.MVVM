@@ -1,11 +1,3 @@
-//
-//  SegmentedControl.swift
-//  ToDo.UDF.MVVM
-//
-//  Сегментований вибір: обраний сегмент — чорний pill, решта — світлі.
-//  Опційна кольорова крапка перед підписом (для пріоритету).
-//
-
 import SwiftUI
 
 struct SegmentedControl<Option: Hashable>: View {

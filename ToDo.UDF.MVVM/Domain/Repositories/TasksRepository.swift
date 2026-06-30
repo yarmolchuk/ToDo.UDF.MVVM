@@ -1,10 +1,3 @@
-//
-//  TasksRepository.swift
-//  ToDo.UDF.MVVM
-//
-//  Контракт сховища задач. Реалізується у шарі Data.
-//
-
 import Foundation
 
 protocol TasksRepository: Sendable {

@@ -1,11 +1,3 @@
-//
-//  NewTaskViewModel.swift
-//  ToDo.UDF.MVVM
-//
-//  UDF-ViewModel форми створення задачі. Перекладач між моделями
-//  (TaskWhen/TaskPriority) і presentation-типами Props (When/PriorityBadge).
-//
-
 import SwiftUI
 import OSLog
 
@@ -69,7 +61,6 @@ final class NewTaskViewModel: UdfViewModel {
                 let summary = TaskSummary(title: task.title, time: task.time, priority: TaskSummary.PriorityBadge(task.priority))
                 onEffect(.saveRequested(summary))
             } catch {
-                // #5: лог; показ помилки користувачу — поза обсягом.
                 Logger(subsystem: "ToDo.UDF.MVVM", category: "NewTask")
                     .error("Не вдалося зберегти задачу: \(error.localizedDescription, privacy: .public)")
             }

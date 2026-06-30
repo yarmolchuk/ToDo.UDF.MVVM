@@ -1,11 +1,3 @@
-//
-//  TaskListView.swift
-//  ToDo.UDF.MVVM
-//
-//  Екран списку задач. Керується UDF через AnyUdfViewModel:
-//  дані завантажуються через .load, toggle і прогрес приходять із Props.
-//
-
 import SwiftUI
 
 struct TaskListView: View {

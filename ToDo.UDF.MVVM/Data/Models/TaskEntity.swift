@@ -1,10 +1,3 @@
-//
-//  TaskEntity.swift
-//  ToDo.UDF.MVVM
-//
-//  SwiftData-модель задачі + мапінг у доменний TodoTask.
-//
-
 import Foundation
 import SwiftData
 

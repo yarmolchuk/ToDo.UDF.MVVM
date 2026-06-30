@@ -1,11 +1,3 @@
-//
-//  TaskSummaryCard.swift
-//  ToDo.UDF.MVVM
-//
-//  Біла картка-підсумок задачі: крапка пріоритету, назва та метадані.
-//  Обгортає власний контент по ширині (hug), тож центрується батьком.
-//
-
 import SwiftUI
 
 struct TaskSummaryCard: View {

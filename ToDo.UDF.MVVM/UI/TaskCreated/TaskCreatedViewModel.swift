@@ -1,10 +1,3 @@
-//
-//  TaskCreatedViewModel.swift
-//  ToDo.UDF.MVVM
-//
-//  UDF-ViewModel екрана «Задачу створено».
-//
-
 import SwiftUI
 
 @MainActor

@@ -1,11 +1,3 @@
-//
-//  NewTaskView.swift
-//  ToDo.UDF.MVVM
-//
-//  Форма створення задачі. Керується UDF через AnyUdfViewModel:
-//  поля біндяться інлайн (get з props, set через onEvent).
-//
-
 import SwiftUI
 
 struct NewTaskView: View {

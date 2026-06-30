@@ -1,10 +1,3 @@
-//
-//  TaskUseCases.swift
-//  ToDo.UDF.MVVM
-//
-//  Доменні use cases задач: stateless-обгортки над TasksRepository.
-//
-
 import Foundation
 
 enum TaskValidationError: Error, Equatable {

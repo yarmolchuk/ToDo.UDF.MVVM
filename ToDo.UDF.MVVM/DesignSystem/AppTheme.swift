@@ -1,12 +1,3 @@
-//
-//  AppTheme.swift
-//  ToDo.UDF.MVVM
-//
-//  Дизайн-токени застосунку. Кольори зібрані в одному місці, щоб усі
-//  екрани лишалися консистентними. За потреби (dark mode) їх легко
-//  перенести в Asset Catalog без зміни місць використання.
-//
-
 import SwiftUI
 
 extension Color {
@@ -18,7 +9,6 @@ extension Color {
     }
 }
 
-/// Палітра застосунку.
 enum AppColor {
     static let background = Color(hex: 0xF3F1EC)
     static let ink = Color(hex: 0x16161A)
@@ -26,8 +16,8 @@ enum AppColor {
     static let textPrimary = Color(hex: 0x16161A)
     static let textSecondary = Color(hex: 0xA1A09A)
     static let onInk = Color.white
-    static let subtleFill = Color(hex: 0xF2F1ED)      // --chip
-    static let stroke = Color(hex: 0xD6D5D0)          // рамка чекбокса
-    static let chipText = Color(hex: 0x52524E)        // текст чипа часу
-    static let priorityLabel = Color(hex: 0xB4B3AD)   // лейбл пріоритету
+    static let subtleFill = Color(hex: 0xF2F1ED)
+    static let stroke = Color(hex: 0xD6D5D0)
+    static let chipText = Color(hex: 0x52524E)
+    static let priorityLabel = Color(hex: 0xB4B3AD)
 }
