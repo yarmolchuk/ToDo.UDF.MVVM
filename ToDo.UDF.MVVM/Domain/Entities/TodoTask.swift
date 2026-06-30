@@ -1,6 +1,6 @@
 import Foundation
 
-struct TodoTask: Identifiable, Equatable, Hashable, Sendable {
+nonisolated struct TodoTask: Identifiable, Equatable, Hashable, Sendable {
     let id: UUID
     var title: String
     var notes: String?
@@ -26,7 +26,7 @@ struct TodoTask: Identifiable, Equatable, Hashable, Sendable {
 }
 
 extension TodoTask {
-    static let sampleList: [TodoTask] = [
+    nonisolated static let sampleList: [TodoTask] = [
         TodoTask(title: "Підготувати презентацію", time: "09:30", priority: .high),
         TodoTask(
             title: "Дзвінок з командою дизайну",

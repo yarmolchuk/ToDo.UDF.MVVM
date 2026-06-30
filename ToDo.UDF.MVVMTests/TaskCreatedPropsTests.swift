@@ -1,6 +1,7 @@
 import Testing
 @testable import ToDo_UDF_MVVM
 
+@MainActor
 struct TaskCreatedPropsTests {
     @Test func initialPropsAreEquatableAndNotAppeared() {
         let a = TaskCreatedView.Props.initial(task: .sample)
