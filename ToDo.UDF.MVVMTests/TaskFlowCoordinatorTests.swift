@@ -4,52 +4,54 @@ import SwiftUI
 
 @MainActor
 struct TaskFlowCoordinatorTests {
-    private func makeCoordinator() -> TaskFlowCoordinator {
-        let useCases = DataAssembly.makeUseCases(repository: InMemoryTasksRepository())
-        return TaskFlowCoordinator(factory: DefaultUIFactory(useCases: useCases))
+    private func makeCoordinator(seed: [TodoTask] = TodoTask.sampleList) -> TaskFlowCoordinator {
+        let router = Router()
+        let useCases = DataAssembly.makeUseCases(repository: InMemoryTasksRepository(seed: seed))
+        let dependencies = TaskFlowFeature.Dependencies.live(router: router, useCases: useCases)
+        return TaskFlowCoordinator(dependencies: dependencies, onComplete: { _ in })
+    }
+
+    @Test func createTaskRequestedPushesNewTask() {
+        let c = makeCoordinator()
+        c.handle(.createTaskRequested)
+        #expect(c.router.path.count == 1)
+    }
+
+    @Test func saveRequestedPushesCreated() {
+        let c = makeCoordinator()
+        c.handle(.saveRequested(.sample))
+        #expect(c.router.path.count == 1)
+    }
+
+    @Test func dismissFormPops() {
+        let c = makeCoordinator()
+        c.handle(.createTaskRequested)
+        #expect(c.router.path.count == 1)
+        c.handle(.dismissForm)
+        #expect(c.router.path.isEmpty)
     }
 
     @Test func finishCreatedPopsToRoot() {
-        let coordinator = makeCoordinator()
-        coordinator.router.push("x")
-        #expect(coordinator.router.path.count == 1)
-        coordinator.handle(.finishCreated)
-        #expect(coordinator.router.path.isEmpty)
+        let c = makeCoordinator()
+        c.handle(.createTaskRequested)
+        c.handle(.saveRequested(.sample))
+        #expect(c.router.path.count == 2)
+        c.handle(.finishCreated)
+        #expect(c.router.path.isEmpty)
     }
 
-    @Test func makesTaskCreatedViewModelCarryingTask() {
-        let coordinator = makeCoordinator()
-        let vm = coordinator.makeTaskCreatedViewModel(task: .sample)
-        #expect(vm.props.task == .sample)
-    }
-
-    @Test func createTaskRequestedIsNoOp() {
-        let coordinator = makeCoordinator()
-        coordinator.handle(.createTaskRequested)
-        #expect(coordinator.router.path.isEmpty)
-    }
-
-    @Test func makesTaskListViewModel() {
-        let coordinator = makeCoordinator()
-        let vm = coordinator.makeTaskListViewModel()
-        #expect(vm.props.active.isEmpty)   // до .load список порожній
-    }
-
-    @Test func saveRequestedIsNoOp() {
-        let coordinator = makeCoordinator()
-        coordinator.handle(.saveRequested)
-        #expect(coordinator.router.path.isEmpty)
-    }
-
-    @Test func dismissFormIsNoOp() {
-        let coordinator = makeCoordinator()
-        coordinator.handle(.dismissForm)
-        #expect(coordinator.router.path.isEmpty)
+    @Test func listViewModelIsRetainedStableInstance() {
+        let c = makeCoordinator()
+        #expect(c.listViewModel === c.listViewModel)
     }
 
     @Test func makesNewTaskViewModel() {
-        let coordinator = makeCoordinator()
-        let vm = coordinator.makeNewTaskViewModel()
-        #expect(vm.props.canSave)
+        let c = makeCoordinator()
+        #expect(c.makeNewTaskViewModel().props.canSave)
+    }
+
+    @Test func makesTaskCreatedViewModelCarryingTask() {
+        let c = makeCoordinator()
+        #expect(c.makeTaskCreatedViewModel(task: .sample).props.task == .sample)
     }
 }

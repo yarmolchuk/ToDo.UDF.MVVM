@@ -65,9 +65,10 @@ final class NewTaskViewModel: UdfViewModel {
             )
             do {
                 try await addTask(task)
-                onEffect(.saveRequested)
+                let summary = TaskSummary(title: task.title, time: task.time, priority: task.priority)
+                onEffect(.saveRequested(summary))
             } catch {
-                // #4: лише лог; показ помилки/навігація — у #5.
+                // #5: лог; показ помилки користувачу — поза обсягом.
                 Logger(subsystem: "ToDo.UDF.MVVM", category: "NewTask")
                     .error("Не вдалося зберегти задачу: \(error.localizedDescription, privacy: .public)")
             }

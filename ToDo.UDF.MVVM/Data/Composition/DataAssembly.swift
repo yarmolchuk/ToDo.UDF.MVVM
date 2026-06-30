@@ -12,11 +12,7 @@ import SwiftData
 enum DataAssembly {
     static func makeModelContainer(inMemory: Bool = false) throws -> ModelContainer {
         let schema = Schema([TaskEntity.self])
-        // Окреме сховище "Tasks.store", щоб не конфліктувати зі стандартним
-        // сховищем шаблонного Item, поки воно співіснує (#4). #5 спростить.
-        let configuration = inMemory
-            ? ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
-            : ModelConfiguration(schema: schema, url: URL.documentsDirectory.appending(path: "Tasks.store"))
+        let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: inMemory)
         return try ModelContainer(for: schema, configurations: [configuration])
     }
 
@@ -37,13 +33,4 @@ enum DataAssembly {
         )
     }
 
-    static func makeLiveUseCases() -> TasksUseCases {
-        do {
-            let container = try makeModelContainer()
-            seedIfNeeded(context: container.mainContext)
-            return makeUseCases(repository: SwiftDataTasksRepository(container: container))
-        } catch {
-            fatalError("Не вдалося ініціалізувати сховище задач: \(error)")
-        }
-    }
 }

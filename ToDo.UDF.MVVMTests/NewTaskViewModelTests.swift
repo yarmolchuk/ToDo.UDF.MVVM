@@ -59,7 +59,7 @@ struct NewTaskViewModelTests {
         #expect(stored.count == 1)
         #expect(stored[0].title == "Купити каву")
         #expect(stored[0].notes == nil)             // порожні notes → nil
-        #expect(received == .saveRequested)
+        #expect(received == .saveRequested(TaskSummary(title: "Купити каву", time: "09:30", priority: .medium)))
     }
 
     @Test func saveMapsDefaultTimeToHHmm() async throws {

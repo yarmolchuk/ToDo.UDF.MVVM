@@ -7,12 +7,13 @@ import Foundation
 
 @MainActor
 protocol Coordinator: AnyObject {
-    func handle(_ effect: CoordinatorEffect)
+    var onComplete: (any Coordinator) -> Void { get }
+    func start()
 }
 
 enum CoordinatorEffect: Equatable {
     case finishCreated
     case createTaskRequested
-    case saveRequested
+    case saveRequested(TaskSummary)
     case dismissForm
 }
