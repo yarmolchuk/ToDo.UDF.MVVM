@@ -33,7 +33,7 @@ final class NewTaskViewModel: UdfViewModel {
             notes: "Підготувати дек та ключові метрики",
             when: Self.makeWhen(.today),
             time: Self.defaultTime,
-            priority: PriorityBadge(.medium),
+            priority: Props.PriorityBadge(.medium),
             isPickingTime: false,
             canSave: Self.canSave(title: title)
         )
@@ -66,7 +66,7 @@ final class NewTaskViewModel: UdfViewModel {
             )
             do {
                 try await addTask(task)
-                let summary = TaskSummary(title: task.title, time: task.time, priority: props.priority)
+                let summary = TaskSummary(title: task.title, time: task.time, priority: TaskSummary.PriorityBadge(task.priority))
                 onEffect(.saveRequested(summary))
             } catch {
                 // #5: лог; показ помилки користувачу — поза обсягом.

@@ -52,7 +52,7 @@ struct TaskListRow: View {
 }
 
 private struct PriorityTag: View {
-    let priority: PriorityBadge
+    let priority: TaskRow.PriorityBadge
 
     var body: some View {
         HStack(spacing: 5) {
@@ -65,6 +65,16 @@ private struct PriorityTag: View {
                 .textCase(.uppercase)
                 .lineLimit(1)
                 .foregroundStyle(AppColor.priorityLabel)
+        }
+    }
+}
+
+extension TaskRow.PriorityBadge {
+    var indicatorColor: Color {
+        switch self {
+        case .low: Color(hex: 0xC4C4C8)
+        case .medium: Color(hex: 0x71717A)
+        case .high: Color(hex: 0x16161A)
         }
     }
 }

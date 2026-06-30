@@ -59,13 +59,13 @@ struct SegmentedControl<Option: Hashable>: View {
 #Preview {
     struct Demo: View {
         @State private var when: NewTaskView.Props.When = .today
-        @State private var priority: PriorityBadge = .medium
+        @State private var priority: NewTaskView.Props.PriorityBadge = .medium
 
         var body: some View {
             VStack(spacing: 20) {
                 SegmentedControl(options: NewTaskView.Props.When.allCases, selection: $when, label: \.title)
                 SegmentedControl(
-                    options: PriorityBadge.allCases,
+                    options: NewTaskView.Props.PriorityBadge.allCases,
                     selection: $priority,
                     label: \.title,
                     dotColor: { $0.indicatorColor }

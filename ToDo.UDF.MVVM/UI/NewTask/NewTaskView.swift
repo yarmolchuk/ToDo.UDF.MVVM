@@ -102,7 +102,7 @@ struct NewTaskView: View {
 
             field(label: "Пріоритет") {
                 SegmentedControl(
-                    options: PriorityBadge.allCases,
+                    options: Props.PriorityBadge.allCases,
                     selection: Binding(
                         get: { viewModel.props.priority },
                         set: { viewModel.onEvent(.priorityChanged($0)) }
@@ -156,6 +156,16 @@ struct NewTaskView: View {
         .presentationBackground(AppColor.background)
     }
 
+}
+
+extension NewTaskView.Props.PriorityBadge {
+    var indicatorColor: Color {
+        switch self {
+        case .low: Color(hex: 0xC4C4C8)
+        case .medium: Color(hex: 0x71717A)
+        case .high: Color(hex: 0x16161A)
+        }
+    }
 }
 
 #Preview {

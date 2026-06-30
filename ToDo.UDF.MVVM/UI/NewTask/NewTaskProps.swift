@@ -3,7 +3,8 @@
 //  ToDo.UDF.MVVM
 //
 //  UDF-стан і події форми створення задачі. Props володіють власними
-//  presentation-типами (Props.When/PriorityBadge) — View не знає про модельні енуми.
+//  presentation-типами (When/PriorityBadge) — View не знає про модельні енуми.
+//  Колір пріоритету — у UI-розширенні (NewTaskView), щоб дані лишались без SwiftUI.
 //
 
 import Foundation
@@ -32,6 +33,37 @@ extension NewTaskView {
                 }
             }
         }
+
+        // Власний пріоритет форми. VM створює його з TaskPriority і повертає назад на save.
+        enum PriorityBadge: Hashable, CaseIterable {
+            case low
+            case medium
+            case high
+
+            init(_ priority: TaskPriority) {
+                switch priority {
+                case .low: self = .low
+                case .medium: self = .medium
+                case .high: self = .high
+                }
+            }
+
+            var domain: TaskPriority {
+                switch self {
+                case .low: .low
+                case .medium: .medium
+                case .high: .high
+                }
+            }
+
+            var title: String {
+                switch self {
+                case .low: "Низький"
+                case .medium: "Середній"
+                case .high: "Високий"
+                }
+            }
+        }
     }
 
     enum SyncEvent: Equatable {
@@ -39,7 +71,7 @@ extension NewTaskView {
         case notesChanged(String)
         case whenChanged(Props.When)
         case timeChanged(Date)
-        case priorityChanged(PriorityBadge)
+        case priorityChanged(Props.PriorityBadge)
         case timePickerOpened
         case timePickerClosed
         case backTapped
